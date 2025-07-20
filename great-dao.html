@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Great Dao Incremental</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f8ff; }
+    button { margin: 5px; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+  <h1>Great Dao Incremental</h1>
+  <p>Realm: <span id="realm">Seed Nurturing</span></p>
+  <p>Qi: <span id="qi">0</span></p>
+  <button id="ascendBtn">Ascend Realm (cost: 10 Qi)</button>
+  
+  <script>
+    const realms = ["Seed Nurturing", "Rootbond", "Trunk Shaping", "Canopy Awakening"];
+    let qi = 0;
+    let realmIndex = 0;
+
+    const qiDisplay = document.getElementById('qi');
+    const realmDisplay = document.getElementById('realm');
+    const ascendBtn = document.getElementById('ascendBtn');
+
+    function updateDisplay() {
+      qiDisplay.textContent = Math.floor(qi);
+      realmDisplay.textContent = realms[realmIndex];
+      ascendBtn.textContent = `Ascend Realm (cost: ${10 * (realmIndex + 1)} Qi)`;
+      ascendBtn.disabled = qi < 10 * (realmIndex + 1) || realmIndex >= realms.length - 1;
+    }
+
+    ascendBtn.addEventListener('click', () => {
+      const cost = 10 * (realmIndex + 1);
+      if (qi >= cost && realmIndex < realms.length - 1) {
+        qi -= cost;
+        realmIndex++;
+        updateDisplay();
+      }
+    });
+
+    // Passive Qi gain every second
+    setInterval(() => {
+      qi += 1 + realmIndex; // Base 1 Qi + realm bonus per second
+      updateDisplay();
+    }, 1000);
+
+    updateDisplay();
+  </script>
+</body>
+</html>
