@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Great Dao</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #8e44ad 0%, #444a57 100%);
+      color: #f6f6f6;
+      text-align: center;
+      margin-top: 50px;
+      min-height: 100vh;
+    }
+    .container {
+      background: rgba(50, 50, 60, 0.95);
+      display: inline-block;
+      padding: 36px 48px;
+      border-radius: 14px;
+      box-shadow: 0 4px 16px #8e44ad66;
+    }
+    .realm {
+      font-size: 1.25em;
+      margin: 18px 0 8px 0;
+    }
+    .mini-stage {
+      color: #a383d6;
+      font-size: 1.05em;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      background: #8e44ad;
+      color: #fff;
+      margin: 10px 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px #6c3483;
+      transition: background 0.2s;
+    }
+    button:disabled {
+      background: #444;
+      color: #aaa;
+      box-shadow: none;
+    }
+    .progress-bar {
+      width: 80%;
+      height: 20px;
+      background: #444a57;
+      border-radius: 10px;
+      margin: 18px auto;
+      position: relative;
+      box-shadow: 0 2px 8px #8e44ad44;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg,#a383d6,#8e44ad);
+      border-radius: 10px;
+      transition: width 0.3s;
+    }
+    .event {
+      margin-top: 18px;
+      color: #a383d6;
+      font-size: 1.1em;
+      font-style: italic;
+    }
+    .speed {
+      margin-top: 8px;
+      font-size: 1.03em;
+      color: #a383d6;
+    }
+    .fate {
+      margin-top: 18px;
+      font-size: 1.1em;
+      color: #ffd86b;
+    }
+    .controls {
+      margin: 16px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Great Dao</h1>
+    <div class="realm" id="realmDisplay"></div>
+    <div class="mini-stage" id="miniStageDisplay"></div>
+    <div>Qi: <span id="qiDisplay">0</span></div>
+    <div>Qi/sec: <span id="qpsDisplay">1</span></div>
+    <div class="speed" id="speedDisplay"></div>
+    <div class="fate">Fate Points: <span id="fateDisplay">0</span> <span id="fateBonus"></span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="controls">
+      <button id="advanceBtn" disabled>Advance Realm</button>
+      <button id="saveBtn">Save</button>
+      <button id="loadBtn">Load</button>
+      <button id="reincarnateBtn">Reincarnate (Gain Fate)</button>
+      <button id="resetBtn">Reset Game</button>
+    </div>
+    <div class="event" id="eventMsg"></div>
+  </div>
+  <script>
+    // Cultivation stages from RTOC wiki, starting from Third Rate Master
+    const mainRealms = [
+      "Third Rate Master",
+      "Second Rate Master",
+      "First Rate Master",
+      "Peak Master",
+      "Three Flowers Gather at the Summit",
+      "Five Energies Converging at the Origin",
+      "Ultimate Pinnacle",
+      "Beyond the Path to Heaven (First Stage of Manifestation)",
+      "Treading Heaven Beyond the Path (Second Stage of Manifestation)",
+      "Beyond Treading Heavens (Third Stage of Manifestation)",
+      "Fourth Stage of Manifestation",
+      "Fifth Stage of Manifestation",
+      "Qi Gathering",
+      "Qi Refining",
+      "Qi Building",
+      "Core Formation",
+      "Nascent Soul",
+      "Heavenly Being",
+      "Middle Boundary: Four Pillars",
+      "Middle Boundary: Integration",
+      "Middle Boundary: Star Shattering",
+      "Middle Boundary: Star Rebirth",
+      "Middle Boundary: Entering Nirvana",
+      "Great Boundary: True Immortal"
+    ];
+    const miniStages = ["Early", "Middle", "Late", "Peak"];
+    // Example Qi requirements, adjust for pacing as you like!
+    const qiNeeded = [
+      [1000, 2000, 4000, 7000],                  // Third Rate Master
+      [12000, 18000, 24000, 32000],              // Second Rate Master
+      [50000, 70000, 90000, 120000],             // First Rate Master
+      [200000, 250000, 320000, 400000],          // Peak Master
+      [600000, 800000, 1100000, 1500000],        // Three Flowers Gather at the Summit
+      [2200000, 2600000, 3000000, 3400000],      // Five Energies Converging at the Origin
+      [4000000, 5000000, 6000000, 7000000],      // Ultimate Pinnacle
+      [8000000, 9000000, 10500000, 12000000],    // Beyond the Path to Heaven
+      [15000000, 18000000, 21000000, 25000000],  // Treading Heaven Beyond the Path
+      [30000000, 35000000, 40000000, 45000000],  // Beyond Treading Heavens
+      [50000000, 60000000, 70000000, 80000000],  // Fourth Stage of Manifestation
+      [100000000, 120000000, 140000000, 160000000], // Fifth Stage of Manifestation
+      [200000000, 220000000, 240000000, 260000000], // Qi Gathering
+      [300000000, 350000000, 400000000, 450000000], // Qi Refining
+      [500000000, 600000000, 700000000, 800000000], // Qi Building
+      [1000000000, 1200000000, 1400000000, 1600000000], // Core Formation
+      [2000000000, 2200000000, 2400000000, 2600000000], // Nascent Soul
+      [3000000000, 3500000000, 4000000000, 4500000000], // Heavenly Being
+      [5000000000, 6000000000, 7000000000, 8000000000], // Four Pillars
+      [10000000000, 12000000000, 14000000000, 16000000000], // Integration
+      [20000000000, 22000000000, 24000000000, 26000000000], // Star Shattering
+      [30000000000, 35000000000, 40000000000, 45000000000], // Star Rebirth
+      [50000000000, 60000000000, 70000000000, 80000000000], // Entering Nirvana
+      [100000000000, 120000000000, 140000000000, 160000000000] // Great Boundary: True Immortal
+    ];
+    // Example: unlock time speed at some high stages
+    const speedUnlocks = [
+      { realm: 3, mini: 3 }, // Peak Master
+      { realm: 11, mini: 3 }, // Fifth Stage of Manifestation
+      { realm: 23, mini: 3 } // Great Boundary: True Immortal
+    ];
+
+    // Game state
+    let qi = 0;
+    let baseQiPerSecond = 1;
+    let qiPerSecond = baseQiPerSecond;
+    let timeSpeedMultiplier = 1;
+    let realmIndex = 0;
+    let miniStageIndex = 0;
+    let fatePoints = 0;
+    let lastBreakthroughMsg = "";
+    let reincarnatedPoints = [];
+
+    function getFateBonus() {
+      return fatePoints;
+    }
+
+    // DOM
+    const qiDisplay = document.getElementById('qiDisplay');
+    const qpsDisplay = document.getElementById('qpsDisplay');
+    const realmDisplay = document.getElementById('realmDisplay');
+    const miniStageDisplay = document.getElementById('miniStageDisplay');
+    const advanceBtn = document.getElementById('advanceBtn');
+    const progressFill = document.getElementById('progressFill');
+    const eventMsg = document.getElementById('eventMsg');
+    const speedDisplay = document.getElementById('speedDisplay');
+    const fateDisplay = document.getElementById('fateDisplay');
+    const fateBonusDisplay = document.getElementById('fateBonus');
+    const saveBtn = document.getElementById('saveBtn');
+    const loadBtn = document.getElementById('loadBtn');
+    const reincarnateBtn = document.getElementById('reincarnateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    function updateUI() {
+      qiDisplay.textContent = Math.floor(qi);
+      qpsDisplay.textContent = Math.floor((qiPerSecond + getFateBonus()) * timeSpeedMultiplier);
+      speedDisplay.textContent = "Time Speed: x" + timeSpeedMultiplier;
+      fateDisplay.textContent = fatePoints;
+      fateBonusDisplay.textContent = fatePoints > 0 ? `(Bonus Qi/sec: +${getFateBonus()})` : "";
+      realmDisplay.textContent = "Realm: " + mainRealms[realmIndex];
+      miniStageDisplay.textContent = miniStages[miniStageIndex] + " Stage";
+      let nextQiNeeded = qiNeeded[realmIndex]?.[miniStageIndex] || 0;
+      let prevQiNeeded = (realmIndex === 0 && miniStageIndex === 0) ? 0 : (
+        miniStageIndex === 0 ? qiNeeded[realmIndex-1]?.[3] || 0 : qiNeeded[realmIndex]?.[miniStageIndex-1] || 0
+      );
+      let progress = Math.min((qi - prevQiNeeded) / (nextQiNeeded - prevQiNeeded), 1);
+      progressFill.style.width = (progress * 100) + "%";
+      advanceBtn.disabled = !(qi >= nextQiNeeded);
+      advanceBtn.textContent = "Advance Realm";
+      eventMsg.textContent = lastBreakthroughMsg;
+    }
+
+    function checkTimeSpeedUnlocks() {
+      speedUnlocks.forEach((unlock, idx) => {
+        if (realmIndex === unlock.realm && miniStageIndex === unlock.mini && timeSpeedMultiplier < idx + 2) {
+          timeSpeedMultiplier = idx + 2;
+          lastBreakthroughMsg = `You comprehended the Flow of Time! Time speed increased to x${timeSpeedMultiplier}.`;
+        }
+      });
+    }
+
+    function breakthroughRealm() {
+      miniStageIndex++;
+      baseQiPerSecond += (realmIndex + 1) * (miniStageIndex) * 2;
+      qiPerSecond = baseQiPerSecond;
+      lastBreakthroughMsg = `You advanced to ${miniStages[miniStageIndex]} Stage of ${mainRealms[realmIndex]}!`;
+      checkTimeSpeedUnlocks();
+      updateUI();
+      if (miniStageIndex === miniStages.length) {
+        // Advance to next main realm
+        miniStageIndex = 0;
+        realmIndex++;
+        if (realmIndex < mainRealms.length) {
+          lastBreakthroughMsg = `You broke through to ${mainRealms[realmIndex]} realm!`;
+          updateUI();
+        } else {
+          lastBreakthroughMsg = "You have reached the peak of cultivation! The Great Dao is yours!";
+          advanceBtn.disabled = true;
+        }
+      }
+    }
+
+    advanceBtn.onclick = function() {
+      breakthroughRealm();
+    };
+
+    setInterval(() => {
+      qi += (qiPerSecond + getFateBonus()) * timeSpeedMultiplier;
+      updateUI();
+    }, 1000);
+
+    // --- Save/Load System ---
+    function getGameData() {
+      return {
+        qi, baseQiPerSecond, qiPerSecond, timeSpeedMultiplier,
+        realmIndex, miniStageIndex, fatePoints,
+        reincarnatedPoints
+      };
+    }
+    function setGameData(data) {
+      qi = data.qi || 0;
+      baseQiPerSecond = data.baseQiPerSecond || 1;
+      qiPerSecond = data.qiPerSecond || baseQiPerSecond;
+      timeSpeedMultiplier = data.timeSpeedMultiplier || 1;
+      realmIndex = data.realmIndex || 0;
+      miniStageIndex = data.miniStageIndex || 0;
+      fatePoints = data.fatePoints || 0;
+      reincarnatedPoints = data.reincarnatedPoints || [];
+      lastBreakthroughMsg = "";
+      updateUI();
+    }
+    function saveGame() {
+      localStorage.setItem('great-dao-save', JSON.stringify(getGameData()));
+      lastBreakthroughMsg = "Game Saved!";
+      updateUI();
+    }
+    function loadGame() {
+      let data = localStorage.getItem('great-dao-save');
+      if (data) {
+        setGameData(JSON.parse(data));
+        lastBreakthroughMsg = "Game Loaded!";
+        updateUI();
+      } else {
+        lastBreakthroughMsg = "No save found!";
+        updateUI();
+      }
+    }
+    function resetGame() {
+      if (confirm("Reset all progress (including Fate Points)?")) {
+        qi = 0;
+        baseQiPerSecond = 1;
+        qiPerSecond = baseQiPerSecond;
+        timeSpeedMultiplier = 1;
+        realmIndex = 0;
+        miniStageIndex = 0;
+        fatePoints = 0;
+        reincarnatedPoints = [];
+        lastBreakthroughMsg = "Game Reset!";
+        saveGame();
+        updateUI();
+      }
+    }
+
+    saveBtn.onclick = saveGame;
+    loadBtn.onclick = loadGame;
+    resetBtn.onclick = resetGame;
+
+    // --- Reincarnation System (Fate) ---
+    reincarnateBtn.onclick = function() {
+      let currentPoint = `${realmIndex}:${miniStageIndex}`;
+      if (reincarnatedPoints.includes(currentPoint)) {
+        lastBreakthroughMsg = "You cannot earn Fate Points for reincarnating at the same stage twice!";
+      } else {
+        let gainedFate = (realmIndex + 1) + Math.floor(qi/100000);
+        if (gainedFate < 1) gainedFate = 1;
+        fatePoints += gainedFate;
+        reincarnatedPoints.push(currentPoint);
+        lastBreakthroughMsg = `Reincarnated! You gained ${gainedFate} Fate Point${gainedFate>1?"s":""}. Permanent Qi/sec bonus increased!`;
+      }
+      qi = 0;
+      baseQiPerSecond = 1;
+      qiPerSecond = baseQiPerSecond;
+      timeSpeedMultiplier = 1;
+      realmIndex = 0;
+      miniStageIndex = 0;
+      saveGame();
+      updateUI();
+    };
+
+    setInterval(() => saveGame(), 30000);
+
+    window.onload = loadGame;
+  </script>
+</body>
+</html>
