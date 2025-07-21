@@ -4,334 +4,413 @@
   <meta charset="UTF-8">
   <title>Great Dao</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #8e44ad 0%, #444a57 100%);
-      color: #f6f6f6;
-      text-align: center;
-      margin-top: 50px;
-      min-height: 100vh;
-    }
-    .container {
-      background: rgba(50, 50, 60, 0.95);
-      display: inline-block;
-      padding: 36px 48px;
-      border-radius: 14px;
-      box-shadow: 0 4px 16px #8e44ad66;
-    }
-    .realm {
-      font-size: 1.25em;
-      margin: 18px 0 8px 0;
-    }
-    .mini-stage {
-      color: #a383d6;
-      font-size: 1.05em;
-    }
-    button {
-      padding: 12px 24px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: none;
-      background: #8e44ad;
-      color: #fff;
-      margin: 10px 8px;
-      cursor: pointer;
-      box-shadow: 0 2px 6px #6c3483;
-      transition: background 0.2s;
-    }
-    button:disabled {
-      background: #444;
-      color: #aaa;
-      box-shadow: none;
-    }
-    .progress-bar {
-      width: 80%;
-      height: 20px;
-      background: #444a57;
-      border-radius: 10px;
-      margin: 18px auto;
-      position: relative;
-      box-shadow: 0 2px 8px #8e44ad44;
-    }
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg,#a383d6,#8e44ad);
-      border-radius: 10px;
-      transition: width 0.3s;
-    }
-    .event {
-      margin-top: 18px;
-      color: #a383d6;
-      font-size: 1.1em;
-      font-style: italic;
-    }
-    .speed {
-      margin-top: 8px;
-      font-size: 1.03em;
-      color: #a383d6;
-    }
-    .fate {
-      margin-top: 18px;
-      font-size: 1.1em;
-      color: #ffd86b;
-    }
-    .controls {
-      margin: 16px 0;
-    }
+    body { font-family:sans-serif; background:#181826; color:#fff; text-align:center; }
+    .container { margin:32px auto; padding:24px 32px; background:#282840; border-radius:12px; display:inline-block; }
+    .section { margin:18px 0; }
+    .stats { font-size:1.1em; margin-bottom:14px; }
+    button { margin:6px 10px; padding:8px 20px; background:#7e3ff2; color:#fff; border:none; border-radius:6px; cursor:pointer;}
+    button:disabled { background:#444; color:#ccc; cursor:not-allowed;}
+    .idle { margin-top:14px; color:#ffd86b; }
+    .event { margin-top:12px; font-style:italic; color:#5cf2b2;}
+    .breakthrough { margin-top:16px; color:#e6aaff; font-weight:bold;}
+    .stage { margin-top:10px; font-size:1.1em; }
+    .legacy { margin:18px 0; background:#222; padding:18px; border-radius:8px; }
+    .npc-panel { background:#232340; margin:6px 0; padding:8px; border-radius:8px; text-align:left;}
+    .npc-rival { color:#f86e6e;}
+    .npc-ally { color:#70e3e3;}
+    .npc-family { color:#ffd9a0; }
+    .npc-love { color:#ff8be2;}
+    .npc-mentor { color:#8be2ff; }
+    .npc-disciple { color:#b8ff8b; }
+    .npc-bar { display:inline-block; width:80px; height:12px; border-radius:6px; margin:0 6px; background:#333; vertical-align:middle;}
+    .npc-bar-inner { height:12px; border-radius:6px; }
+    #worldEventBanner { margin:24px 0; background:#333; color:#ffd86b; font-size:1.12em; padding:12px; border-radius:8px; display:none; }
+    #quizModal { display:none; position:fixed; top:0;left:0;width:100vw;height:100vh; background:rgba(0,0,0,0.85); z-index:999; }
+    #quizModal .quiz-content { background:#222; padding:24px; margin:80px auto; max-width:400px; border-radius:12px; box-shadow:0 2px 16px #8e44ad; color: #fff; text-align:left;}
+    #quizModal h2 { color: #ffd86b; }
+    #quizQuestions label { margin-right: 14px; }
+    #quizStatus { margin-top:14px; }
+    .quest { color:#e3a95f; }
+    .descendant { color:#bbffbb; }
+    .ancestor { color:#ffd9a0; }
+    .npc-actions { margin:6px 0 0 0;}
+    .npc-actions button { background:#444; color:#ffd86b; font-size:0.95em; margin:2px 4px; padding:2px 8px;}
+    .npc-actions button.active { background:#7e3ff2; color:#fff;}
+    .npc-details { font-size:0.94em; }
+    #npcPanel { display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(20,20,40,0.96); z-index:998; }
+    #npcPanelContent { background:#2a2a45; padding:24px; margin:60px auto; max-width:550px; border-radius:14px; box-shadow:0 2px 16px #8e44ad; color: #fff; text-align:left;}
+    #closeNpcPanel { margin-bottom:18px; background:#f86e6e;}
+    #npcPanel h2 { color: #ffd86b; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Great Dao</h1>
-    <div class="realm" id="realmDisplay"></div>
-    <div class="mini-stage" id="miniStageDisplay"></div>
-    <div>Qi: <span id="qiDisplay">0</span></div>
-    <div>Qi/sec: <span id="qpsDisplay">1</span></div>
-    <div class="speed" id="speedDisplay"></div>
-    <div class="fate">Fate Points: <span id="fateDisplay">0</span> <span id="fateBonus"></span></div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="controls">
-      <button id="advanceBtn" disabled>Advance Realm</button>
-      <button id="saveBtn">Save</button>
-      <button id="loadBtn">Load</button>
-      <button id="reincarnateBtn">Reincarnate (Gain Fate)</button>
-      <button id="resetBtn">Reset Game</button>
+    <div class="section stats">
+      Age: <span id="ageDisplay"></span> | Health: <span id="healthDisplay"></span> | Talent: <span id="talentDisplay"></span><br>
+      Relationships: <span id="relDisplay"></span> | Wealth: <span id="wealthDisplay"></span>
     </div>
+    <div class="section">
+      <button id="studyBtn">Study</button>
+      <button id="trainBtn">Train</button>
+      <button id="workBtn">Work</button>
+      <button id="restBtn">Rest</button>
+      <button id="meetBtn">Meet NPC</button>
+      <button id="cultivateBtn">Meditate</button>
+      <button id="advanceBtn" disabled>Advance</button>
+      <button id="relationshipBtn">Relationships</button>
+    </div>
+    <div class="section idle">
+      Qi: <span id="qiDisplay"></span> | Qi/sec: <span id="qpsDisplay"></span>
+      <div class="stage">
+        Realm: <span id="realmDisplay"></span>
+        <br>
+        Stage: <span id="miniStageDisplay"></span>
+      </div>
+    </div>
+    <div class="breakthrough" id="breakthroughMsg"></div>
     <div class="event" id="eventMsg"></div>
+    <div id="worldEventBanner"></div>
+    <div class="legacy" id="legacyPanel">
+      <strong class="ancestor">Lineage Legacy:</strong>
+      <div id="familyTree"></div>
+      <div id="inheritedQuests"></div>
+    </div>
+  </div>
+  <!-- NPC Relationship Panel Modal -->
+  <div id="npcPanel">
+    <div id="npcPanelContent">
+      <button id="closeNpcPanel">Close</button>
+      <h2>Your Relationships</h2>
+      <div id="knownNpcList"></div>
+    </div>
+  </div>
+  <!-- Quiz Modal -->
+  <div id="quizModal">
+    <div class="quiz-content">
+      <h2 id="quizTitle">Breakthrough Quiz</h2>
+      <div id="quizQuestions"></div>
+      <button id="quizSubmitBtn">Submit Answers</button>
+      <div id="quizStatus"></div>
+    </div>
   </div>
   <script>
-    // Cultivation stages from RTOC wiki, starting from Third Rate Master
+    // ==== Cultivation Stages ====
     const mainRealms = [
-      "Third Rate Master",
-      "Second Rate Master",
-      "First Rate Master",
-      "Peak Master",
-      "Three Flowers Gather at the Summit",
-      "Five Energies Converging at the Origin",
-      "Ultimate Pinnacle",
-      "Beyond the Path to Heaven (First Stage of Manifestation)",
-      "Treading Heaven Beyond the Path (Second Stage of Manifestation)",
-      "Beyond Treading Heavens (Third Stage of Manifestation)",
-      "Fourth Stage of Manifestation",
-      "Fifth Stage of Manifestation",
-      "Qi Gathering",
-      "Qi Refining",
-      "Qi Building",
-      "Core Formation",
-      "Nascent Soul",
-      "Heavenly Being",
-      "Middle Boundary: Four Pillars",
-      "Middle Boundary: Integration",
-      "Middle Boundary: Star Shattering",
-      "Middle Boundary: Star Rebirth",
-      "Middle Boundary: Entering Nirvana",
-      "Great Boundary: True Immortal"
+      "Third Rate Master", "Second Rate Master", "First Rate Master", "Peak Master", "Three Flowers Gather at the Summit",
+      "Five Energies Converging at the Origin", "Ultimate Pinnacle", "Beyond the Path to Heaven (First Stage of Manifestation)",
+      "Treading Heaven Beyond the Path (Second Stage of Manifestation)", "Beyond Treading Heavens (Third Stage of Manifestation)",
+      "Fourth Stage of Manifestation", "Fifth Stage of Manifestation", "Qi Gathering", "Qi Refining",
+      "Qi Building", "Core Formation", "Nascent Soul", "Heavenly Being", "Middle Boundary: Four Pillars",
+      "Middle Boundary: Integration", "Middle Boundary: Star Shattering", "Middle Boundary: Star Rebirth",
+      "Middle Boundary: Entering Nirvana", "Great Boundary: True Immortal"
     ];
     const miniStages = ["Early", "Middle", "Late", "Peak"];
-    // Example Qi requirements, adjust for pacing as you like!
     const qiNeeded = [
-      [1000, 2000, 4000, 7000],                  // Third Rate Master
-      [12000, 18000, 24000, 32000],              // Second Rate Master
-      [50000, 70000, 90000, 120000],             // First Rate Master
-      [200000, 250000, 320000, 400000],          // Peak Master
-      [600000, 800000, 1100000, 1500000],        // Three Flowers Gather at the Summit
-      [2200000, 2600000, 3000000, 3400000],      // Five Energies Converging at the Origin
-      [4000000, 5000000, 6000000, 7000000],      // Ultimate Pinnacle
-      [8000000, 9000000, 10500000, 12000000],    // Beyond the Path to Heaven
-      [15000000, 18000000, 21000000, 25000000],  // Treading Heaven Beyond the Path
-      [30000000, 35000000, 40000000, 45000000],  // Beyond Treading Heavens
-      [50000000, 60000000, 70000000, 80000000],  // Fourth Stage of Manifestation
-      [100000000, 120000000, 140000000, 160000000], // Fifth Stage of Manifestation
-      [200000000, 220000000, 240000000, 260000000], // Qi Gathering
-      [300000000, 350000000, 400000000, 450000000], // Qi Refining
-      [500000000, 600000000, 700000000, 800000000], // Qi Building
-      [1000000000, 1200000000, 1400000000, 1600000000], // Core Formation
-      [2000000000, 2200000000, 2400000000, 2600000000], // Nascent Soul
-      [3000000000, 3500000000, 4000000000, 4500000000], // Heavenly Being
-      [5000000000, 6000000000, 7000000000, 8000000000], // Four Pillars
-      [10000000000, 12000000000, 14000000000, 16000000000], // Integration
-      [20000000000, 22000000000, 24000000000, 26000000000], // Star Shattering
-      [30000000000, 35000000000, 40000000000, 45000000000], // Star Rebirth
-      [50000000000, 60000000000, 70000000000, 80000000000], // Entering Nirvana
-      [100000000000, 120000000000, 140000000000, 160000000000] // Great Boundary: True Immortal
-    ];
-    // Example: unlock time speed at some high stages
-    const speedUnlocks = [
-      { realm: 3, mini: 3 }, // Peak Master
-      { realm: 11, mini: 3 }, // Fifth Stage of Manifestation
-      { realm: 23, mini: 3 } // Great Boundary: True Immortal
+      [100, 200, 400, 700], [1200, 1800, 2400, 3200], [5000, 7000, 9000, 12000], [20000, 25000, 32000, 40000],
+      [60000, 80000, 110000, 150000], [220000, 260000, 300000, 340000], [400000, 500000, 600000, 700000],
+      [800000, 900000, 1050000, 1200000], [1500000, 1800000, 2100000, 2500000], [3000000, 3500000, 4000000, 4500000],
+      [5000000, 6000000, 7000000, 8000000], [10000000, 12000000, 14000000, 16000000], [20000000, 22000000, 24000000, 26000000],
+      [30000000, 35000000, 40000000, 45000000], [50000000, 60000000, 70000000, 80000000],
+      [100000000, 120000000, 140000000, 160000000], [200000000, 220000000, 240000000, 260000000],
+      [300000000, 350000000, 400000000, 450000000], [500000000, 600000000, 700000000, 800000000],
+      [1000000000, 1200000000, 1400000000, 1600000000], [2000000000, 2200000000, 2400000000, 2600000000],
+      [3000000000, 3500000000, 4000000000, 4500000000], [5000000000, 6000000000, 7000000000, 8000000000],
+      [10000000000, 12000000000, 14000000000, 16000000000]
     ];
 
-    // Game state
-    let qi = 0;
-    let baseQiPerSecond = 1;
-    let qiPerSecond = baseQiPerSecond;
-    let timeSpeedMultiplier = 1;
-    let realmIndex = 0;
-    let miniStageIndex = 0;
-    let fatePoints = 0;
-    let lastBreakthroughMsg = "";
-    let reincarnatedPoints = [];
+    // ==== World Events ====
+    const worldEvents = [
+      { name: "Qi Storm", effect: "All Qi/sec halved for 30 seconds", duration: 30, apply: () => { qiSecMod = 0.5; }, clear: () => { qiSecMod = 1; } },
+      { name: "Demon Invasion", effect: "NPCs may lose talent; you must donate Qi to repel", duration: 45, apply: () => { demonActive = true; }, clear: () => { demonActive = false; } },
+      { name: "Heavenly Tribulation", effect: "Breakthroughs require extra quiz; failing causes setback", duration: 40, apply: () => { tribulationActive = true; }, clear: () => { tribulationActive = false; } },
+      { name: "Dao Fragment Shower", effect: "Talent bonus for all descendants", duration: 20, apply: () => { talentBonusActive = true; }, clear: () => { talentBonusActive = false; } }
+    ];
 
-    function getFateBonus() {
-      return fatePoints;
+    // ==== Quiz Pool ====
+    const quizPools = [
+      { q: "What is most important in human relationships?", a: "Trust", choices: ["Trust","Power","Wealth","Fame"] },
+      { q: "Which emotion is hardest to control?", a: "Anger", choices: ["Joy","Anger","Hope","Fear"] },
+      { q: "What is the foundation of a harmonious society?", a: "Respect", choices: ["Respect","Strength","Control","Obedience"] },
+      { q: "To forgive is to ...", a: "Be free", choices: ["Be weak","Be free","Lose","Forget"] },
+      { q: "Greatest virtue in a leader?", a: "Compassion", choices: ["Compassion","Wisdom","Charisma","Authority"] },
+      { q: "Human ambition leads to ...", a: "Progress", choices: ["Progress","Destruction","Greed","War"] },
+      { q: "What cultivates mental resilience?", a: "Meditation", choices: ["Meditation","Competition","Luck","Strength"] },
+      { q: "Greatest obstacle for a cultivator's mind?", a: "Doubt", choices: ["Doubt","Greed","Pain","Laziness"] },
+      { q: "A quiet mind brings ...", a: "Clarity", choices: ["Clarity","Power","Chaos","Loneliness"] },
+      { q: "Wisdom is gained through ...", a: "Experience", choices: ["Experience","Books","Luck","Wealth"] },
+      { q: "What defines one's Dao?", a: "Choices", choices: ["Choices","Power","Wealth","Followers"] },
+      { q: "True enlightenment is found in?", a: "Understanding", choices: ["Understanding","Victory","Isolation","Conflict"] },
+      { q: "What is the greatest test on the path?", a: "Sacrifice", choices: ["Sacrifice","Strength","Speed","Companions"] }
+    ];
+
+    // ==== Relationship System ====
+    const npcTypes = [
+      {type:"rival", label:"Rival", color:"npc-rival"},
+      {type:"ally", label:"Ally", color:"npc-ally"},
+      {type:"family", label:"Family", color:"npc-family"},
+      {type:"love", label:"Love Interest", color:"npc-love"},
+      {type:"mentor", label:"Mentor", color:"npc-mentor"},
+      {type:"disciple", label:"Disciple", color:"npc-disciple"}
+    ];
+    const npcNames = [
+      "Zhou", "Mei", "Chen", "Li", "Xiao", "Wang", "Yu", "Tian", "Luo", "Fang", "Qin", "Hua", "Lan", "Jin", "Rong", "Bo", "Wei", "Shen", "Min", "Yan"
+    ];
+    const npcTraits = [
+      "Loyal", "Ambitious", "Hot-headed", "Wise", "Jealous", "Generous", "Secretive", "Bold", "Kind", "Scheming", "Righteous", "Detached"
+    ];
+
+    function randomFrom(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+    function clamp(val,min,max) { return Math.max(min,Math.min(max,val)); }
+
+    // ==== Generational/Legacy State ====
+    let familyTree = [];
+    let inheritedQuests = [];
+    let currentGeneration = 1;
+    let parentName = "";
+    let descendantName = "";
+    let talentBonusActive = false;
+
+    // ==== Player State ====
+    let player = {
+      name: "You",
+      age: 16,
+      health: 100,
+      talent: 2,
+      relationships: 0,
+      wealth: 50,
+      qi: 0,
+      qiPerSec: 1,
+      realmIndex: 0,
+      miniStageIndex: 0,
+      quests: [],
+      alive: true
+    };
+
+    // ==== NPC Pool & Known NPCs ====
+    let npcPool = [];
+    let knownNPCs = [];
+    function createNPC(index) {
+      let typeObj = randomFrom(npcTypes);
+      return {
+        id: "npc-"+index+"-"+currentGeneration+"-"+Math.floor(Math.random()*10000),
+        name: randomFrom(npcNames)+" "+(Math.random()<0.4 ? randomFrom(npcNames) : ""),
+        type: typeObj.type,
+        label: typeObj.label,
+        color: typeObj.color,
+        trait: randomFrom(npcTraits),
+        relationship: clamp(Math.floor(Math.random()*60)+20,0,100),
+        talent: clamp(Math.floor(Math.random()*4)+1,1,6),
+        age: Math.floor(Math.random()*30)+14,
+        qi: Math.floor(Math.random()*150),
+        qiPerSec: 1,
+        realmIndex: Math.floor(Math.random()*3),
+        miniStageIndex: Math.floor(Math.random()*2),
+        alive: true,
+        married: false,
+        spouseId: null,
+        history: [],
+      };
     }
+    function generateNPCPool(n=12) {
+      npcPool = [];
+      knownNPCs = [];
+      for (let i=0;i<n;i++) npcPool.push(createNPC(i));
+    }
+    generateNPCPool();
 
-    // DOM
+    // ==== World Event State ====
+    let currentWorldEvent = null;
+    let worldEventTimer = 0;
+    let qiSecMod = 1;
+    let demonActive = false;
+    let tribulationActive = false;
+
+    // ==== UI Elements ====
+    const ageDisplay = document.getElementById('ageDisplay');
+    const healthDisplay = document.getElementById('healthDisplay');
+    const talentDisplay = document.getElementById('talentDisplay');
+    const relDisplay = document.getElementById('relDisplay');
+    const wealthDisplay = document.getElementById('wealthDisplay');
     const qiDisplay = document.getElementById('qiDisplay');
     const qpsDisplay = document.getElementById('qpsDisplay');
     const realmDisplay = document.getElementById('realmDisplay');
     const miniStageDisplay = document.getElementById('miniStageDisplay');
     const advanceBtn = document.getElementById('advanceBtn');
-    const progressFill = document.getElementById('progressFill');
     const eventMsg = document.getElementById('eventMsg');
-    const speedDisplay = document.getElementById('speedDisplay');
-    const fateDisplay = document.getElementById('fateDisplay');
-    const fateBonusDisplay = document.getElementById('fateBonus');
-    const saveBtn = document.getElementById('saveBtn');
-    const loadBtn = document.getElementById('loadBtn');
-    const reincarnateBtn = document.getElementById('reincarnateBtn');
-    const resetBtn = document.getElementById('resetBtn');
+    const breakthroughMsg = document.getElementById('breakthroughMsg');
+    const worldEventBanner = document.getElementById('worldEventBanner');
+    const familyTreeDiv = document.getElementById('familyTree');
+    const inheritedQuestsDiv = document.getElementById('inheritedQuests');
+    const npcPanel = document.getElementById('npcPanel');
+    const npcPanelContent = document.getElementById('npcPanelContent');
+    const knownNpcListDiv = document.getElementById('knownNpcList');
+    const relationshipBtn = document.getElementById('relationshipBtn');
+    const closeNpcPanelBtn = document.getElementById('closeNpcPanel');
 
-    function updateUI() {
-      qiDisplay.textContent = Math.floor(qi);
-      qpsDisplay.textContent = Math.floor((qiPerSecond + getFateBonus()) * timeSpeedMultiplier);
-      speedDisplay.textContent = "Time Speed: x" + timeSpeedMultiplier;
-      fateDisplay.textContent = fatePoints;
-      fateBonusDisplay.textContent = fatePoints > 0 ? `(Bonus Qi/sec: +${getFateBonus()})` : "";
-      realmDisplay.textContent = "Realm: " + mainRealms[realmIndex];
-      miniStageDisplay.textContent = miniStages[miniStageIndex] + " Stage";
-      let nextQiNeeded = qiNeeded[realmIndex]?.[miniStageIndex] || 0;
-      let prevQiNeeded = (realmIndex === 0 && miniStageIndex === 0) ? 0 : (
-        miniStageIndex === 0 ? qiNeeded[realmIndex-1]?.[3] || 0 : qiNeeded[realmIndex]?.[miniStageIndex-1] || 0
-      );
-      let progress = Math.min((qi - prevQiNeeded) / (nextQiNeeded - prevQiNeeded), 1);
-      progressFill.style.width = (progress * 100) + "%";
-      advanceBtn.disabled = !(qi >= nextQiNeeded);
-      advanceBtn.textContent = "Advance Realm";
-      eventMsg.textContent = lastBreakthroughMsg;
-    }
+    // Quiz modal
+    const quizModal = document.getElementById('quizModal');
+    const quizQuestionsDiv = document.getElementById('quizQuestions');
+    const quizSubmitBtn = document.getElementById('quizSubmitBtn');
+    const quizTitle = document.getElementById('quizTitle');
+    const quizStatus = document.getElementById('quizStatus');
 
-    function checkTimeSpeedUnlocks() {
-      speedUnlocks.forEach((unlock, idx) => {
-        if (realmIndex === unlock.realm && miniStageIndex === unlock.mini && timeSpeedMultiplier < idx + 2) {
-          timeSpeedMultiplier = idx + 2;
-          lastBreakthroughMsg = `You comprehended the Flow of Time! Time speed increased to x${timeSpeedMultiplier}.`;
-        }
-      });
-    }
-
-    function breakthroughRealm() {
-      miniStageIndex++;
-      baseQiPerSecond += (realmIndex + 1) * (miniStageIndex) * 2;
-      qiPerSecond = baseQiPerSecond;
-      lastBreakthroughMsg = `You advanced to ${miniStages[miniStageIndex]} Stage of ${mainRealms[realmIndex]}!`;
-      checkTimeSpeedUnlocks();
-      updateUI();
-      if (miniStageIndex === miniStages.length) {
-        // Advance to next main realm
-        miniStageIndex = 0;
-        realmIndex++;
-        if (realmIndex < mainRealms.length) {
-          lastBreakthroughMsg = `You broke through to ${mainRealms[realmIndex]} realm!`;
-          updateUI();
-        } else {
-          lastBreakthroughMsg = "You have reached the peak of cultivation! The Great Dao is yours!";
-          advanceBtn.disabled = true;
-        }
+    // ==== Quiz Logic ====
+    function getRandomQuizQuestions(n=3) {
+      let arr = quizPools.slice();
+      let out = [];
+      while (out.length < n && arr.length > 0) {
+        let idx = Math.floor(Math.random() * arr.length);
+        out.push(arr.splice(idx,1)[0]);
       }
+      return out;
     }
-
-    advanceBtn.onclick = function() {
-      breakthroughRealm();
-    };
-
-    setInterval(() => {
-      qi += (qiPerSecond + getFateBonus()) * timeSpeedMultiplier;
-      updateUI();
-    }, 1000);
-
-    // --- Save/Load System ---
-    function getGameData() {
-      return {
-        qi, baseQiPerSecond, qiPerSecond, timeSpeedMultiplier,
-        realmIndex, miniStageIndex, fatePoints,
-        reincarnatedPoints
+    function showQuiz(callback, tribulation=false) {
+      quizTitle.textContent = tribulation ? "Heavenly Tribulation Quiz!" : "Major Breakthrough Quiz";
+      const questions = getRandomQuizQuestions(tribulation ? 4 : 3);
+      quizQuestionsDiv.innerHTML = '';
+      quizStatus.textContent = '';
+      questions.forEach((q, i) => {
+        const div = document.createElement('div');
+        div.innerHTML = `<b>Q${i+1}:</b> ${q.q}<br>`;
+        q.choices.forEach(choice => {
+          div.innerHTML += `<label><input type="radio" name="quizQ${i}" value="${choice}"> ${choice}</label> `;
+        });
+        quizQuestionsDiv.appendChild(div);
+      });
+      quizModal.style.display = 'block';
+      quizSubmitBtn.onclick = function() {
+        let correct = 0;
+        questions.forEach((q, i) => {
+          const radios = document.getElementsByName(`quizQ${i}`);
+          let answer = "";
+          for (const r of radios) if (r.checked) answer = r.value;
+          if (answer === q.a) correct++;
+        });
+        quizStatus.textContent = `You got ${correct}/${questions.length} correct!`;
+        setTimeout(() => {
+          quizModal.style.display = 'none';
+          callback(correct >= Math.ceil(questions.length/2));
+        }, 1300);
       };
     }
-    function setGameData(data) {
-      qi = data.qi || 0;
-      baseQiPerSecond = data.baseQiPerSecond || 1;
-      qiPerSecond = data.qiPerSecond || baseQiPerSecond;
-      timeSpeedMultiplier = data.timeSpeedMultiplier || 1;
-      realmIndex = data.realmIndex || 0;
-      miniStageIndex = data.miniStageIndex || 0;
-      fatePoints = data.fatePoints || 0;
-      reincarnatedPoints = data.reincarnatedPoints || [];
-      lastBreakthroughMsg = "";
-      updateUI();
-    }
-    function saveGame() {
-      localStorage.setItem('great-dao-save', JSON.stringify(getGameData()));
-      lastBreakthroughMsg = "Game Saved!";
-      updateUI();
-    }
-    function loadGame() {
-      let data = localStorage.getItem('great-dao-save');
-      if (data) {
-        setGameData(JSON.parse(data));
-        lastBreakthroughMsg = "Game Loaded!";
-        updateUI();
-      } else {
-        lastBreakthroughMsg = "No save found!";
-        updateUI();
-      }
-    }
-    function resetGame() {
-      if (confirm("Reset all progress (including Fate Points)?")) {
-        qi = 0;
-        baseQiPerSecond = 1;
-        qiPerSecond = baseQiPerSecond;
-        timeSpeedMultiplier = 1;
-        realmIndex = 0;
-        miniStageIndex = 0;
-        fatePoints = 0;
-        reincarnatedPoints = [];
-        lastBreakthroughMsg = "Game Reset!";
-        saveGame();
-        updateUI();
-      }
-    }
 
-    saveBtn.onclick = saveGame;
-    loadBtn.onclick = loadGame;
-    resetBtn.onclick = resetGame;
-
-    // --- Reincarnation System (Fate) ---
-    reincarnateBtn.onclick = function() {
-      let currentPoint = `${realmIndex}:${miniStageIndex}`;
-      if (reincarnatedPoints.includes(currentPoint)) {
-        lastBreakthroughMsg = "You cannot earn Fate Points for reincarnating at the same stage twice!";
+    // ==== Life Actions ====
+    document.getElementById('studyBtn').onclick = function() {
+      if (player.wealth >= 5) {
+        player.wealth -= 5; player.talent += 1;
+        eventMsg.textContent = "You studied hard! Talent increased.";
       } else {
-        let gainedFate = (realmIndex + 1) + Math.floor(qi/100000);
-        if (gainedFate < 1) gainedFate = 1;
-        fatePoints += gainedFate;
-        reincarnatedPoints.push(currentPoint);
-        lastBreakthroughMsg = `Reincarnated! You gained ${gainedFate} Fate Point${gainedFate>1?"s":""}. Permanent Qi/sec bonus increased!`;
+        eventMsg.textContent = "Not enough wealth to study.";
       }
-      qi = 0;
-      baseQiPerSecond = 1;
-      qiPerSecond = baseQiPerSecond;
-      timeSpeedMultiplier = 1;
-      realmIndex = 0;
-      miniStageIndex = 0;
-      saveGame();
+      updateUI();
+    };
+    document.getElementById('trainBtn').onclick = function() {
+      player.health = Math.max(player.health - 3, 0); player.qiPerSec += player.talent;
+      eventMsg.textContent = "You trained. Qi/sec increased by your talent.";
+      updateUI();
+    };
+    document.getElementById('workBtn').onclick = function() {
+      player.wealth += 15; player.health = Math.max(player.health - 2, 0);
+      eventMsg.textContent = "You worked and earned money.";
+      updateUI();
+    };
+    document.getElementById('restBtn').onclick = function() {
+      player.health = Math.min(player.health + 6, 100);
+      eventMsg.textContent = "You rested. Health restored.";
+      updateUI();
+    };
+    document.getElementById('meetBtn').onclick = function() {
+      // Reveal a random NPC not yet known
+      let unknowns = npcPool.filter(npc=>!knownNPCs.some(k=>k.id===npc.id));
+      if (unknowns.length > 0) {
+        let npc = randomFrom(unknowns);
+        knownNPCs.push(npc);
+        player.relationships += 1;
+        eventMsg.textContent = `You met ${npc.name}, a ${npc.label}. They are now in your life.`;
+        npc.history.push(`Met player (+7)`);
+      } else {
+        eventMsg.textContent = "You have met all possible NPCs for this generation.";
+      }
+      updateUI();
+    };
+    document.getElementById('cultivateBtn').onclick = function() {
+      player.health = Math.max(player.health - 1, 0); player.qiPerSec += Math.floor(player.talent/2);
+      eventMsg.textContent = "You meditate, Qi/sec rises.";
       updateUI();
     };
 
-    setInterval(() => saveGame(), 30000);
+    // ==== Advancement logic ====
+    advanceBtn.onclick = function() {
+      let nextQiNeeded = qiNeeded[player.realmIndex]?.[player.miniStageIndex] || 0;
+      if (player.qi >= nextQiNeeded) {
+        if (player.miniStageIndex === miniStages.length-1) {
+          showQuiz(function(passed) {
+            if (passed) {
+              breakthroughMsg.textContent = `Quiz passed! You broke through to ${mainRealms[player.realmIndex+1] || "the peak!"}`;
+              eventMsg.textContent = "A new realm opens before you.";
+              player.qiPerSec += 5 * (player.realmIndex+1);
+              player.miniStageIndex = 0;
+              player.realmIndex++;
+              if (talentBonusActive) {
+                player.talent += 2;
+              }
+              inheritedQuests = inheritedQuests.filter(q => q.type !== "breakthrough" || q.realm !== mainRealms[player.realmIndex]);
+            } else {
+              breakthroughMsg.textContent = "Quiz failed! You failed to break through. Try again after cultivating further.";
+              eventMsg.textContent = "You feel a bottleneck in your cultivation.";
+              if (tribulationActive) {
+                player.qi = Math.max(0, Math.floor(player.qi / 2));
+                player.talent = Math.max(1, player.talent - 1);
+              }
+            }
+            updateUI();
+          }, tribulationActive);
+        } else {
+          player.miniStageIndex++;
+          breakthroughMsg.textContent = `Advanced to ${miniStages[player.miniStageIndex]} Stage of ${mainRealms[player.realmIndex]}`;
+          eventMsg.textContent = "Your cultivation base grows.";
+          player.qiPerSec += 2 * (player.miniStageIndex+1);
+          updateUI();
+        }
+      }
+    };
 
-    window.onload = loadGame;
-  </script>
-</body>
-</html>
+    // ==== Relationship Actions ====
+    function npcAction(npc, action) {
+      let msg = "";
+      switch(action) {
+        case "talk":
+          npc.relationship = clamp(npc.relationship+5,0,100);
+          msg = `You talked with ${npc.name}. Relationship improved!`;
+          npc.history.push("Talked (+5)");
+          break;
+        case "gift":
+          if (player.wealth >= 10) {
+            player.wealth -= 10;
+            npc.relationship = clamp(npc.relationship+12,0,100);
+            msg = `You gave a gift to ${npc.name}. Relationship greatly improved!`;
+            npc.history.push("Gifted (+12)");
+          } else {
+            msg = "Not enough wealth to buy a gift.";
+          }
+          break;
+        case "duel":
+          if (Math.random()<0.5) {
+            npc.relationship = clamp(npc.relationship-10,0,100);
+            msg = `You lost the duel! ${npc.name} looks down on you.`;
+            npc.history.push("Lost duel (-10)");
+          } else {
+            npc.relationship = clamp(npc.relationship+8,0,100);
+            msg = `You won the duel! ${npc.name} respects you more.`;
+            npc.history.push("Won duel (+8)");
+          }
+          break;
+        case "train":
+          npc.relationship = clamp(npc.relationship+3,0,100);
+          msg = `You trained with ${npc.name}. Relationship increased.`;
+          npc.history.push("Trained (+3)");
+          break;
+        case "befriend":
+          if (npc.relationship>75 && npc.type!=="ally") {
+   
