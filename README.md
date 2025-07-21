@@ -1,7 +1,7 @@
 # Great-Dao
 Become the Great Dao
 
-A browser-based incremental cultivation game inspired by Murim, Xianxia, and Daoist philosophy.
+A browser-based life incremental cultivation game inspired by Murim, Xianxia, and Daoist philosophy.
 
 ## 📜 Overview
 
