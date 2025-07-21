@@ -1,4 +1,464 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Great Dao</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: linear-gradient(180deg, #dbe8ff 0%, #b5c2e8 100%);
+      color: #333;
+      margin: 0;
+    }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      background: #4b5c7e;
+      color: #fff;
+      font-size: 1.1em;
+      padding: 10px 20px;
+      border-bottom: 2px solid #bac6e6;
+      position: relative;
+      height: 48px;
+      box-shadow: 0 2px 8px #b5c2e8;
+      z-index: 2;
+    }
+    .top-bar .currency {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    .currency-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+      font-size: 1.05em;
+      background: rgba(255,255,255,0.07);
+      border-radius: 18px;
+      padding: 2px 12px;
+      box-shadow: 0 2px 8px #4442;
+    }
+    .currency-icon {
+      width: 22px;
+      height: 22px;
+      display: inline-block;
+      vertical-align: middle;
+      background-size: cover;
+    }
+    .currency-icon.gold {
+      background-image: url('https://img.icons8.com/fluency/48/000000/money.png');
+    }
+    .currency-icon.stone {
+      background-image: url('https://img.icons8.com/fluency/48/000000/diamond.png');
+    }
+    .container {
+      margin: 0 auto;
+      padding: 18px 0 0 0;
+      max-width: 470px;
+      min-height: 100vh;
+      position: relative;
+    }
+    .avatar-bar {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin: 16px 0 6px 0;
+      position: relative;
+    }
+    .avatar {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      border: 3px solid #e2e6f6;
+      background: #f8f8ff url('https://img.icons8.com/emoji/96/000000/baby-emoji.png') center center/70% no-repeat;
+      box-shadow: 0 2px 10px #b5c2e8;
+    }
+    .avatar-info {
+      flex: 1;
+      margin-left: 2px;
+    }
+    .avatar-name {
+      font-size: 1.25em;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+      color: #4b5c7e;
+    }
+    .avatar-title {
+      font-size: 1em;
+      color: #7e3ff2;
+      margin-bottom: 5px;
+    }
+    .stats-section {
+      background: #f4f6fbcc;
+      border-radius: 22px;
+      box-shadow: 0 2px 16px #b5c2e8;
+      padding: 18px 14px 14px 14px;
+      margin-bottom: 18px;
+      margin-top: 0;
+    }
+    .stat-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 11px;
+      gap: 9px;
+    }
+    .stat-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 80px;
+      font-size: 1.05em;
+      color: #4b5c7e;
+      font-weight: 500;
+      letter-spacing: .5px;
+    }
+    .stat-icon {
+      width: 22px;
+      height: 22px;
+      background-size: cover;
+      vertical-align: middle;
+      margin-right: 2px;
+    }
+    .stat-bar-bg {
+      flex: 1;
+      height: 18px;
+      background: #e5e9f4;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #b5c2e822;
+      overflow: hidden;
+      position: relative;
+      margin: 0 4px;
+    }
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: 12px;
+      transition: width 0.6s;
+      box-shadow: 0 1px 8px #7772;
+    }
+    .stat-value {
+      min-width: 34px;
+      text-align: right;
+      font-size: 1.08em;
+      font-weight: bold;
+      color: #333;
+    }
+    /* Stat colors */
+    .bar-age      { background: linear-gradient(90deg,#a8c0ff,#f8ffae); }
+    .bar-health   { background: linear-gradient(90deg,#ffb6b6,#ffd86b); }
+    .bar-talent   { background: linear-gradient(90deg,#7e3ff2,#ffd86b); }
+    .bar-wealth   { background: linear-gradient(90deg,#ffd86b,#fffbe6); }
+    .bar-stones   { background: linear-gradient(90deg,#c6e2ff,#70e3e3); }
+    .bar-rel      { background: linear-gradient(90deg,#ffd9a0,#7e3ff2); }
+    .bar-qi       { background: linear-gradient(90deg,#7e3ff2,#ffd86b); }
+    .bar-qps      { background: linear-gradient(90deg,#70e3e3,#ffd9a0); }
+    .bar-infamy   { background: linear-gradient(90deg,#e34b4b,#ffd9a0); }
+
+    /* Central round button */
+    .advance-btn {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: #e6eaff linear-gradient(180deg,#7e3ff2 0%,#ffd86b 100%);
+      color: #fff;
+      font-size: 1.85em;
+      font-weight: bold;
+      border: 3px solid #bac6e6;
+      margin: 0 auto 18px auto;
+      box-shadow: 0 2px 16px #7e3ff288, 0 2px 32px #ffd86b44;
+      display: block;
+      cursor:pointer;
+      transition: transform 0.15s, box-shadow 0.18s;
+      position: relative;
+    }
+    .advance-btn:disabled {
+      background: #dbe8ff;
+      color: #bbb;
+      border-color: #e5e9f4;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .advance-btn:hover:not(:disabled) {
+      transform: scale(1.06);
+      box-shadow: 0 4px 22px #7e3ff2bb;
+      background: #b5c2e8 linear-gradient(180deg,#ffd86b 0%,#7e3ff2 100%);
+    }
+    /* Diamond buttons */
+    .diamond-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 14px;
+      justify-content: center;
+      margin-bottom: 8px;
+      margin-top: 4px;
+    }
+    .diamond-btn {
+      width: 78px;
+      height: 78px;
+      background: linear-gradient(135deg,#e6eaff 40%,#7e3ff2 100%);
+      color: #fff;
+      font-size: 1.11em;
+      font-weight: bold;
+      border: none;
+      box-shadow: 0 2px 16px #7e3ff2cc;
+      border-radius: 16px;
+      transform: rotate(45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor:pointer;
+      position: relative;
+      transition: box-shadow 0.18s, background 0.18s, transform 0.14s;
+      outline: none;
+    }
+    .diamond-btn:disabled {
+      background: #cbd4e6;
+      color: #bbb;
+      cursor:not-allowed;
+      box-shadow: none;
+    }
+    .diamond-btn:hover:not(:disabled) {
+      box-shadow: 0 6px 32px #ffd86b88;
+      background: linear-gradient(135deg,#ffd86b 40%,#7e3ff2 100%);
+      transform: rotate(45deg) scale(1.09);
+      z-index: 1;
+    }
+    .diamond-btn-label {
+      transform: rotate(-45deg);
+      text-align: center;
+      width: 100%;
+      font-size: 1.07em;
+      pointer-events: none;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container { padding: 8px 2vw; }
+      .advance-btn { width: 80px; height:80px; font-size:1.32em; }
+      .diamond-btn { width:55px; height:55px; font-size:0.92em;}
+      .diamond-buttons { gap: 8px 5px;}
+      .top-bar { font-size:1em; padding:7px 10px;}
+      .avatar { width: 44px; height:44px;}
+      .avatar-bar { gap:7px;}
+      .stats-section { padding:10px 5px;}
+      .stat-label { min-width:50px; font-size:0.91em;}
+    }
+    /* Hide old action bar */
+    .action-bar-old { display: none!important; }
+    .popup-menu {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 102%;
+      background: #232340;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px #7e3ff2;
+      padding: 4px 0;
+      min-width:120px;
+      z-index: 100;
+    }
+    .popup-menu button {
+      width: 100%;
+      background: none;
+      color: #fff;
+      border: none;
+      padding:8px 12px;
+      font-size:0.98em;
+      text-align:left;
+      cursor:pointer;
+      transition: background 0.18s;
+      border-radius: 5px;
+    }
+    .popup-menu button:hover {
+      background: #7e3ff2;
+      color: #ffd86b;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="currency">
+      <span class="currency-item"><span class="currency-icon gold"></span><span id="wealthDisplay"></span></span>
+      <span class="currency-item"><span class="currency-icon stone"></span><span id="spiritStoneDisplay"></span></span>
+    </div>
+  </div>
+  <div class="container">
+    <div class="avatar-bar">
+      <div class="avatar"></div>
+      <div class="avatar-info">
+        <div class="avatar-name" id="playerNameDisplay">You</div>
+        <div class="avatar-title" id="realmDisplay"></div>
+        <div style="font-size:.95em;color:#888;" id="miniStageDisplay"></div>
+      </div>
+    </div>
+    <div class="stats-section">
+      <div class="stat-bar">
+        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/clock.png')"></span>Age</span>
+        <div class="stat-bar-bg"><div id="ageBar" class="stat-bar-fill bar-age"></div></div>
+        <span class="stat-value" id="ageDisplay"></span>
+      </div>
+      <div class="stat-bar">
+        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/heart-health.png')"></span>Health</span>
+        <div class="stat-bar-bg"><div id="healthBar" class="stat-bar-fill bar-health"></div></div>
+        <span class="stat-value" id="healthDisplay"></span>
+      </div>
+      <div class="stat-bar">
+        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/brain.png')"></span>Talent</span>
+        <div class="stat-bar-bg"><div id="talentBar" class="stat-bar-fill bar-talent"></div></div>
+        <span class="stat-value" id="talentDisplay"></span>
+      </div>
+      <div class="stat-bar">
+        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/money.png')"></span>Wealth</span>
+        <div class="stat-bar-bg"><div id="wealthBar" class="stat-bar-fill bar-wealth"></div></div>
+        <span class="stat-value" id="wealthDisplayBar"></span>
+      </div>
+      <div class="stat-bar">
+        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/diamond.png')"></span>Spirit Stones</span>
+        <div class="stat-bar-bg"><div id="stoneBar" class="stat-bar-fill bar-stones"></div></div>
+        <span class="stat-value" id="spiritStoneDisplayBar"></span>
+      </div>
+      <div class="stat-bar">
+        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/group.png')"></span>Relationships</span>
+        <div class="stat-bar-bg"><div id="relBar" class="stat-bar-fill bar-rel"></div></div>
+        <span class="stat-value" id="relDisplay"></span>
+      </div>
+      <div class="stat-bar">
+        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/energy.png')"></span>Qi</span>
+        <div class="stat-bar-bg"><div id="qiBar" class="stat-bar-fill bar-qi"></div></div>
+        <span class="stat-value" id="qiDisplay"></span>
+      </div>
+      <div class="stat-bar">
+        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/lightning-bolt.png')"></span>Qi/sec</span>
+        <div class="stat-bar-bg"><div id="qpsBar" class="stat-bar-fill bar-qps"></div></div>
+        <span class="stat-value" id="qpsDisplay"></span>
+      </div>
+      <div class="stat-bar">
+        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/error.png')"></span>Infamy</span>
+        <div class="stat-bar-bg"><div id="infamyBar" class="stat-bar-fill bar-infamy"></div></div>
+        <span class="stat-value" id="infamyDisplay"></span>
+      </div>
+    </div>
+    <button id="advanceBtn" class="advance-btn">Advance</button>
+    <div class="diamond-buttons">
+      <button id="dailyActionsBtn" class="diamond-btn"><span class="diamond-btn-label">Daily<br>Actions</span></button>
+      <button id="socialBtn" class="diamond-btn"><span class="diamond-btn-label">Social</span></button>
+      <button id="worldBtn" class="diamond-btn"><span class="diamond-btn-label">World</span></button>
+    </div>
+    <div class="section action-bar-old">
+      <!-- Old action bar, now hidden by CSS for fallback -->
+      <button id="studyBtn" class="action-btn">Study</button>
+      <button id="trainBtn" class="action-btn">Train</button>
+      <button id="workBtn" class="action-btn">Work</button>
+      <button id="restBtn" class="action-btn">Rest</button>
+      <button id="meetBtn" class="action-btn">Meet NPC</button>
+      <button id="cultivateBtn" class="action-btn">Meditate</button>
+      <button id="relationshipBtn" class="action-btn">Relationships</button>
+      <button id="worldNewsBtn" class="action-btn">World News</button>
+    </div>
+    <div class="breakthrough" id="breakthroughMsg"></div>
+    <div class="event" id="eventMsg"></div>
+    <div id="worldEventBanner"></div>
+    <div class="legacy" id="legacyPanel">
+      <strong class="ancestor">Lineage Legacy:</strong>
+      <div id="familyTree"></div>
+      <div id="inheritedQuests"></div>
+    </div>
+    <div id="kingdomInfoPanel"></div>
+  </div>
+  <!-- WORLD Tab Modal -->
+  <div id="worldTab" style="display:none;">
+    <h2>World</h2>
+    <div id="locationList"></div>
+    <button id="closeWorldTab" style="margin-top:14px;background:#7e3ff2;color:#fff;border:none;padding:8px 18px;border-radius:7px;">Close</button>
+  </div>
+  <!-- World News Modal -->
+  <div id="worldNewsPanel">
+    <div id="worldNewsContent">
+      <button id="closeWorldNewsBtn">Close</button>
+      <h2>World News</h2>
+      <ul id="newsFeed" class="news-feed"></ul>
+    </div>
+  </div>
+  <!-- Kingdom Naming Modal -->
+  <div id="kingdomModal">
+    <div id="kingdomModalContent">
+      <label>Congratulations! You've conquered a kingdom.<br>Choose a name for your new kingdom:</label>
+      <input type="text" id="kingdomNameInput" maxlength="24" placeholder="Enter kingdom name...">
+      <button id="confirmKingdomNameBtn">Confirm</button>
+      <div id="kingdomModalMsg"></div>
+    </div>
+  </div>
+  <!-- NPC Relationship Panel Modal -->
+  <div id="npcPanel">
+    <div id="npcPanelContent">
+      <button id="closeNpcPanel">Close</button>
+      <h2>Your Relationships</h2>
+      <div id="knownNpcList"></div>
+    </div>
+  </div>
+  <script>
+    // --- POPUP MENU LOGIC FOR DIAMOND BUTTONS ---
+    let activePopup = null;
+    function closePopupMenu() {
+      if (activePopup && activePopup.parentNode) activePopup.parentNode.removeChild(activePopup);
+      activePopup = null;
+    }
+    document.body.addEventListener("click", (e) => {
+      if (activePopup && !activePopup.contains(e.target)) closePopupMenu();
+    });
+    function showPopupMenu(btn, actions) {
+      closePopupMenu();
+      const menu = document.createElement("div");
+      menu.className = "popup-menu";
+      actions.forEach(({label, id, disabled}) => {
+        const b = document.createElement("button");
+        b.textContent = label;
+        b.disabled = !!disabled;
+        b.onclick = function(e) {
+          e.stopPropagation();
+          closePopupMenu();
+          document.getElementById(id).click();
+        };
+        menu.appendChild(b);
+      });
+      btn.parentNode.insertBefore(menu, btn.nextSibling);
+      activePopup = menu;
+    }
+    document.getElementById('studyBtn').style.display = "none";
+    document.getElementById('trainBtn').style.display = "none";
+    document.getElementById('workBtn').style.display = "none";
+    document.getElementById('restBtn').style.display = "none";
+    document.getElementById('cultivateBtn').style.display = "none";
+    document.getElementById('meetBtn').style.display = "none";
+    document.getElementById('relationshipBtn').style.display = "none";
+    document.getElementById('worldNewsBtn').style.display = "none";
+    document.getElementById('dailyActionsBtn').onclick = function(e) {
+      e.stopPropagation();
+      showPopupMenu(this, [
+        {label:"Study", id:"studyBtn"},
+        {label:"Train", id:"trainBtn"},
+        {label:"Work", id:"workBtn"},
+        {label:"Rest", id:"restBtn"},
+        {label:"Meditate", id:"cultivateBtn"}
+      ]);
+    };
+    document.getElementById('socialBtn').onclick = function(e) {
+      e.stopPropagation();
+      showPopupMenu(this, [
+        {label:"Meet NPC", id:"meetBtn"},
+        {label:"Relationships", id:"relationshipBtn"}
+      ]);
+    };
+    document.getElementById('worldBtn').onclick = function(e) {
+      e.stopPropagation();
+      showPopupMenu(this, [
+        {label:"World Map", id:"worldBtn"},
+        {label:"World News", id:"worldNewsBtn"}
+      ]);
+    };
+
+   <script>
     // ==== World News Feed ====
     let worldNews = [];
     function addWorldNews(msg, important=false) {
@@ -832,3 +1292,37 @@
     }
     updateUI();
 </script>
+    function clamp(val,min,max){return Math.max(min,Math.min(max,val));}
+    // Example stat bar UI update
+    function updateUI() {
+      document.getElementById('playerNameDisplay').textContent = player.name;
+      document.getElementById('wealthDisplay').textContent = player.wealth;
+      document.getElementById('spiritStoneDisplay').textContent = player.spiritStones;
+      document.getElementById('wealthDisplayBar').textContent = player.wealth;
+      document.getElementById('spiritStoneDisplayBar').textContent = player.spiritStones;
+      document.getElementById('talentDisplay').textContent = player.talent;
+      document.getElementById('ageDisplay').textContent = player.age;
+      document.getElementById('healthDisplay').textContent = player.health;
+      document.getElementById('relDisplay').textContent = player.relationships;
+      document.getElementById('qiDisplay').textContent = Math.floor(player.qi);
+      document.getElementById('qpsDisplay').textContent = Math.floor(player.qiPerSec);
+      document.getElementById('infamyDisplay').textContent = player.infamy;
+      document.getElementById('realmDisplay').textContent = mainRealms[player.realmIndex] || "Peak";
+      document.getElementById('miniStageDisplay').textContent = miniStages[player.miniStageIndex] || "";
+      document.getElementById('ageBar').style.width = (clamp((player.age-16)/84,0,1)*100)+"%";
+      document.getElementById('healthBar').style.width = (clamp(player.health/100,0,1)*100)+"%";
+      document.getElementById('talentBar').style.width = (clamp(player.talent/10,0,1)*100)+"%";
+      document.getElementById('wealthBar').style.width = (clamp(player.wealth/100,0,1)*100)+"%";
+      document.getElementById('stoneBar').style.width = (clamp(player.spiritStones/100,0,1)*100)+"%";
+      document.getElementById('relBar').style.width = (clamp(player.relationships/20,0,1)*100)+"%";
+      let nextQiNeeded = qiNeeded[player.realmIndex]?.[player.miniStageIndex] || 100;
+      document.getElementById('qiBar').style.width = (clamp(player.qi/nextQiNeeded,0,1)*100)+"%";
+      document.getElementById('qpsBar').style.width = (clamp(player.qiPerSec/100,0,1)*100)+"%";
+      document.getElementById('infamyBar').style.width = (clamp(player.infamy/100,0,1)*100)+"%";
+      let advanceBtn = document.getElementById('advanceBtn');
+      advanceBtn.disabled = !(player.qi >= nextQiNeeded);
+    }
+    // ...rest of game logic here...
+  </script>
+</body>
+</html>
