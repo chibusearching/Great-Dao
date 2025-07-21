@@ -7,7 +7,8 @@
     body { font-family:sans-serif; background:#181826; color:#fff; text-align:center; }
     .container { margin:32px auto; padding:24px 32px; background:#282840; border-radius:12px; display:inline-block; }
     .section { margin:18px 0; }
-    .stats { font-size:1.1em; margin-bottom:14px; }
+    .stats { font-size:1.1em; margin-bottom:14px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;}
+    .stat { display: flex; align-items: center; gap: 5px; }
     button { margin:6px 10px; padding:8px 20px; background:#7e3ff2; color:#fff; border:none; border-radius:6px; cursor:pointer;}
     button:disabled { background:#444; color:#ccc; cursor:not-allowed;}
     .idle { margin-top:14px; color:#ffd86b; }
@@ -25,43 +26,103 @@
     .npc-bar { display:inline-block; width:80px; height:12px; border-radius:6px; margin:0 6px; background:#333; vertical-align:middle;}
     .npc-bar-inner { height:12px; border-radius:6px; }
     #worldEventBanner { margin:24px 0; background:#333; color:#ffd86b; font-size:1.12em; padding:12px; border-radius:8px; display:none; }
-    #quizModal { display:none; position:fixed; top:0;left:0;width:100vw;height:100vh; background:rgba(0,0,0,0.85); z-index:999; }
-    #quizModal .quiz-content { background:#222; padding:24px; margin:80px auto; max-width:400px; border-radius:12px; box-shadow:0 2px 16px #8e44ad; color: #fff; text-align:left;}
-    #quizModal h2 { color: #ffd86b; }
-    #quizQuestions label { margin-right: 14px; }
-    #quizStatus { margin-top:14px; }
     .quest { color:#e3a95f; }
     .descendant { color:#bbffbb; }
     .ancestor { color:#ffd9a0; }
-    .npc-actions { margin:6px 0 0 0;}
-    .npc-actions button { background:#444; color:#ffd86b; font-size:0.95em; margin:2px 4px; padding:2px 8px;}
-    .npc-actions button.active { background:#7e3ff2; color:#fff;}
-    .npc-details { font-size:0.94em; }
-    #npcPanel { display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(20,20,40,0.96); z-index:998; }
-    #npcPanelContent { background:#2a2a45; padding:24px; margin:60px auto; max-width:550px; border-radius:14px; box-shadow:0 2px 16px #8e44ad; color: #fff; text-align:left;}
-    #closeNpcPanel { margin-bottom:18px; background:#f86e6e;}
-    #npcPanel h2 { color: #ffd86b; }
+    .infamy { color:#e34b4b; font-weight:bold; }
+    .progressbar-wrap { background:#333; border-radius:8px; width:180px; height:16px; display:inline-block; vertical-align:middle; margin-left:8px; }
+    .progressbar-inner { background:linear-gradient(90deg,#7e3ff2,#ffd86b); height:16px; border-radius:8px; transition: width 0.6s; }
+    .progressbar-label { position:absolute; width:180px; color:#fff; font-size:0.88em; left:0; top:-1px; text-align:center; pointer-events:none;}
+    .action-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content:center; margin-bottom:12px;}
+    .action-btn { display: flex; align-items: center; gap: 7px; background:#7e3ff2; border:none; color:#fff; padding:7px 16px; border-radius:7px; cursor:pointer; font-size:1em;}
+    .action-btn:disabled { background:#444; color:#ccc; cursor:not-allowed;}
+    #worldTab { background:#222; border-radius:10px; margin:20px auto 0 auto; padding:14px 22px; max-width:640px; text-align:left; }
+    #worldTab h2 { color: #ffd86b; }
+    .location-block { background: #232340; border-radius:8px; padding:10px; margin:8px 0;}
+    .location-title { color:#70e3e3; font-weight:bold; }
+    .location-npcs { margin-left: 14px; }
+    .kingdom-info { margin:10px 0; padding:10px; background:#282840; border-radius:8px;}
+    #kingdomModal { display:none; position:fixed; top:0;left:0;width:100vw;height:100vh; background:rgba(0,0,0,0.85); z-index:999; }
+    #kingdomModalContent { background:#222; padding:24px; margin:80px auto; max-width:400px; border-radius:12px; box-shadow:0 2px 16px #8e44ad; color: #fff; text-align:left;}
+    #kingdomModalContent label { font-weight:bold; }
+    #kingdomModalContent input { width: 100%; padding: 8px; margin: 10px 0; border-radius: 6px; border: 1px solid #444; }
+    #kingdomModalContent button { background:#7e3ff2; color:#fff; margin-top:10px;}
+    #worldNewsBtn { background:#ffd86b; color:#282840; margin-left:12px; }
+    #worldNewsPanel { position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(20,20,40,0.97); z-index:2000; display:none; }
+    #worldNewsContent { background:#222; padding:28px; margin:60px auto; max-width:520px; border-radius:16px; box-shadow:0 2px 16px #ffd86b; color: #fff; text-align:left; min-height:300px;}
+    #closeWorldNewsBtn { float:right; margin-bottom:18px; background:#ffd86b; color:#282840; }
+    .news-feed { margin:0 0 20px 0; padding:0; list-style:none; }
+    .news-item { margin-bottom:14px; padding:9px 12px; background:#232340; border-radius:7px; font-size:1.02em;}
+    .news-timestamp { color:#ffd86b; font-size:0.88em; margin-right:8px;}
+    .news-important { color:#e34b4b; font-weight:bold;}
+    .merged-actions-btn { background:#ffd86b; color:#282840; border-radius:7px; padding:5px 13px; margin:4px 0; font-weight:bold; }
+    .actions-menu { background:#333; color:#fff; border-radius:8px; padding:12px; position:absolute; z-index:99; box-shadow:0 2px 10px #ffd86b; min-width:160px;}
+    .actions-menu button { display:block; width:100%; margin:4px 0; background:#7e3ff2; color:#fff; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Great Dao</h1>
-    <div class="section stats">
-      Age: <span id="ageDisplay"></span> | Health: <span id="healthDisplay"></span> | Talent: <span id="talentDisplay"></span><br>
-      Relationships: <span id="relDisplay"></span> | Wealth: <span id="wealthDisplay"></span>
+    <div id="saveLoadBar">
+      <button id="saveBtn">Save Game</button>
+      <button id="loadBtn">Load Game</button>
+      <span id="saveStatus"></span>
     </div>
-    <div class="section">
-      <button id="studyBtn">Study</button>
-      <button id="trainBtn">Train</button>
-      <button id="workBtn">Work</button>
-      <button id="restBtn">Rest</button>
-      <button id="meetBtn">Meet NPC</button>
-      <button id="cultivateBtn">Meditate</button>
-      <button id="advanceBtn" disabled>Advance</button>
-      <button id="relationshipBtn">Relationships</button>
+    <div class="section stats">
+      <div class="stat" title="Age">
+        Age: <span id="ageDisplay"></span>
+        <div class="progressbar-wrap" style="position:relative;">
+          <div id="ageBar" class="progressbar-inner"></div>
+          <span id="ageBarLabel" class="progressbar-label"></span>
+        </div>
+      </div>
+      <div class="stat" title="Health">
+        Health: <span id="healthDisplay"></span>
+        <div class="progressbar-wrap" style="position:relative;">
+          <div id="healthBar" class="progressbar-inner" style="background:linear-gradient(90deg,#f86e6e,#ffd86b);"></div>
+          <span id="healthBarLabel" class="progressbar-label"></span>
+        </div>
+      </div>
+      <div class="stat" title="Talent">
+        Talent: <span id="talentDisplay"></span>
+      </div>
+      <div class="stat" title="Wealth">
+        Wealth: <span id="wealthDisplay"></span>
+      </div>
+      <div class="stat" title="Relationships">
+        Relationships: <span id="relDisplay"></span>
+        <div class="progressbar-wrap" style="position:relative;">
+          <div id="relBar" class="progressbar-inner" style="background:linear-gradient(90deg,#ffd9a0,#7e3ff2);"></div>
+          <span id="relBarLabel" class="progressbar-label"></span>
+        </div>
+      </div>
+      <div class="stat" title="Qi">
+        Qi: <span id="qiDisplay"></span>
+        <div class="progressbar-wrap" style="position:relative;">
+          <div id="qiBar" class="progressbar-inner" style="background:linear-gradient(90deg,#7e3ff2,#ffd86b);"></div>
+          <span id="qiBarLabel" class="progressbar-label"></span>
+        </div>
+      </div>
+      <div class="stat" title="Qi/sec">
+        Qi/sec: <span id="qpsDisplay"></span>
+      </div>
+      <div class="stat" title="Infamy">
+        <span class="infamy">Infamy: <span id="infamyDisplay"></span></span>
+      </div>
+      <button id="worldNewsBtn">World News</button>
+    </div>
+    <div class="section action-bar">
+      <button id="studyBtn" class="action-btn" title="Study">Study</button>
+      <button id="trainBtn" class="action-btn" title="Train">Train</button>
+      <button id="workBtn" class="action-btn" title="Work">Work</button>
+      <button id="restBtn" class="action-btn" title="Rest">Rest</button>
+      <button id="meetBtn" class="action-btn" title="Meet NPC">Meet NPC</button>
+      <button id="cultivateBtn" class="action-btn" title="Meditate">Meditate</button>
+      <button id="advanceBtn" class="action-btn" title="Advance">Advance</button>
+      <button id="relationshipBtn" class="action-btn" title="Relationships">Relationships</button>
+      <button id="worldBtn" class="action-btn" title="World">World</button>
     </div>
     <div class="section idle">
-      Qi: <span id="qiDisplay"></span> | Qi/sec: <span id="qpsDisplay"></span>
       <div class="stage">
         Realm: <span id="realmDisplay"></span>
         <br>
@@ -76,6 +137,30 @@
       <div id="familyTree"></div>
       <div id="inheritedQuests"></div>
     </div>
+    <div id="kingdomInfoPanel"></div>
+  </div>
+  <!-- WORLD Tab Modal -->
+  <div id="worldTab" style="display:none;">
+    <h2>World</h2>
+    <div id="locationList"></div>
+    <button id="closeWorldTab" style="margin-top:14px;background:#7e3ff2;color:#fff;border:none;padding:8px 18px;border-radius:7px;">Close</button>
+  </div>
+  <!-- World News Modal -->
+  <div id="worldNewsPanel">
+    <div id="worldNewsContent">
+      <button id="closeWorldNewsBtn">Close</button>
+      <h2>World News</h2>
+      <ul id="newsFeed" class="news-feed"></ul>
+    </div>
+  </div>
+  <!-- Kingdom Naming Modal -->
+  <div id="kingdomModal">
+    <div id="kingdomModalContent">
+      <label>Congratulations! You've conquered a kingdom.<br>Choose a name for your new kingdom:</label>
+      <input type="text" id="kingdomNameInput" maxlength="24" placeholder="Enter kingdom name...">
+      <button id="confirmKingdomNameBtn">Confirm</button>
+      <div id="kingdomModalMsg"></div>
+    </div>
   </div>
   <!-- NPC Relationship Panel Modal -->
   <div id="npcPanel">
@@ -85,67 +170,49 @@
       <div id="knownNpcList"></div>
     </div>
   </div>
-  <!-- Quiz Modal -->
-  <div id="quizModal">
-    <div class="quiz-content">
-      <h2 id="quizTitle">Breakthrough Quiz</h2>
-      <div id="quizQuestions"></div>
-      <button id="quizSubmitBtn">Submit Answers</button>
-      <div id="quizStatus"></div>
-    </div>
-  </div>
   <script>
-    // ==== Cultivation Stages ====
-    const mainRealms = [
-      "Third Rate Master", "Second Rate Master", "First Rate Master", "Peak Master", "Three Flowers Gather at the Summit",
-      "Five Energies Converging at the Origin", "Ultimate Pinnacle", "Beyond the Path to Heaven (First Stage of Manifestation)",
-      "Treading Heaven Beyond the Path (Second Stage of Manifestation)", "Beyond Treading Heavens (Third Stage of Manifestation)",
-      "Fourth Stage of Manifestation", "Fifth Stage of Manifestation", "Qi Gathering", "Qi Refining",
-      "Qi Building", "Core Formation", "Nascent Soul", "Heavenly Being", "Middle Boundary: Four Pillars",
-      "Middle Boundary: Integration", "Middle Boundary: Star Shattering", "Middle Boundary: Star Rebirth",
-      "Middle Boundary: Entering Nirvana", "Great Boundary: True Immortal"
-    ];
-    const miniStages = ["Early", "Middle", "Late", "Peak"];
-    const qiNeeded = [
-      [100, 200, 400, 700], [1200, 1800, 2400, 3200], [5000, 7000, 9000, 12000], [20000, 25000, 32000, 40000],
-      [60000, 80000, 110000, 150000], [220000, 260000, 300000, 340000], [400000, 500000, 600000, 700000],
-      [800000, 900000, 1050000, 1200000], [1500000, 1800000, 2100000, 2500000], [3000000, 3500000, 4000000, 4500000],
-      [5000000, 6000000, 7000000, 8000000], [10000000, 12000000, 14000000, 16000000], [20000000, 22000000, 24000000, 26000000],
-      [30000000, 35000000, 40000000, 45000000], [50000000, 60000000, 70000000, 80000000],
-      [100000000, 120000000, 140000000, 160000000], [200000000, 220000000, 240000000, 260000000],
-      [300000000, 350000000, 400000000, 450000000], [500000000, 600000000, 700000000, 800000000],
-      [1000000000, 1200000000, 1400000000, 1600000000], [2000000000, 2200000000, 2400000000, 2600000000],
-      [3000000000, 3500000000, 4000000000, 4500000000], [5000000000, 6000000000, 7000000000, 8000000000],
-      [10000000000, 12000000000, 14000000000, 16000000000]
-    ];
+    // ==== World News Feed ====
+    let worldNews = [];
+    function addWorldNews(msg, important=false) {
+      const now = new Date();
+      const ts = now.toLocaleDateString() + " " + now.toLocaleTimeString();
+      worldNews.unshift({msg, ts, important});
+      if (worldNews.length > 20) worldNews.pop();
+      renderWorldNews();
+    }
+    function renderWorldNews() {
+      const newsFeed = document.getElementById('newsFeed');
+      newsFeed.innerHTML = worldNews.length === 0 ? "<li>No news yet.</li>" :
+        worldNews.map(item =>
+          `<li class="news-item${item.important ? ' news-important' : ''}">
+            <span class="news-timestamp">${item.ts}</span> ${item.msg}
+          </li>`
+        ).join("");
+    }
+    document.getElementById('worldNewsBtn').onclick = function() {
+      renderWorldNews();
+      document.getElementById('worldNewsPanel').style.display = "block";
+    };
+    document.getElementById('closeWorldNewsBtn').onclick = function() {
+      document.getElementById('worldNewsPanel').style.display = "none";
+    };
 
-    // ==== World Events ====
-    const worldEvents = [
-      { name: "Qi Storm", effect: "All Qi/sec halved for 30 seconds", duration: 30, apply: () => { qiSecMod = 0.5; }, clear: () => { qiSecMod = 1; } },
-      { name: "Demon Invasion", effect: "NPCs may lose talent; you must donate Qi to repel", duration: 45, apply: () => { demonActive = true; }, clear: () => { demonActive = false; } },
-      { name: "Heavenly Tribulation", effect: "Breakthroughs require extra quiz; failing causes setback", duration: 40, apply: () => { tribulationActive = true; }, clear: () => { tribulationActive = false; } },
-      { name: "Dao Fragment Shower", effect: "Talent bonus for all descendants", duration: 20, apply: () => { talentBonusActive = true; }, clear: () => { talentBonusActive = false; } }
+    // ==== World, NPC, Kingdom Definitions ====
+    const worldLocations = [
+      {name:"Heavenly Sect", type:"Sect"},
+      {name:"Mystic Mountain", type:"Mountain"},
+      {name:"Imperial City", type:"City"},
+      {name:"Spirit Forest", type:"Forest"},
+      {name:"Azure Lake", type:"Lake"},
+      {name:"Red Temple", type:"Temple"},
+      {name:"Jade Kingdom", type:"Kingdom", resources:{wealth:200, qi:300, troops:50}, ruler:null},
+      {name:"Iron Kingdom", type:"Kingdom", resources:{wealth:150, qi:180, troops:40}, ruler:null},
+      {name:"Dragon Kingdom", type:"Kingdom", resources:{wealth:320, qi:400, troops:110}, ruler:null}
     ];
-
-    // ==== Quiz Pool ====
-    const quizPools = [
-      { q: "What is most important in human relationships?", a: "Trust", choices: ["Trust","Power","Wealth","Fame"] },
-      { q: "Which emotion is hardest to control?", a: "Anger", choices: ["Joy","Anger","Hope","Fear"] },
-      { q: "What is the foundation of a harmonious society?", a: "Respect", choices: ["Respect","Strength","Control","Obedience"] },
-      { q: "To forgive is to ...", a: "Be free", choices: ["Be weak","Be free","Lose","Forget"] },
-      { q: "Greatest virtue in a leader?", a: "Compassion", choices: ["Compassion","Wisdom","Charisma","Authority"] },
-      { q: "Human ambition leads to ...", a: "Progress", choices: ["Progress","Destruction","Greed","War"] },
-      { q: "What cultivates mental resilience?", a: "Meditation", choices: ["Meditation","Competition","Luck","Strength"] },
-      { q: "Greatest obstacle for a cultivator's mind?", a: "Doubt", choices: ["Doubt","Greed","Pain","Laziness"] },
-      { q: "A quiet mind brings ...", a: "Clarity", choices: ["Clarity","Power","Chaos","Loneliness"] },
-      { q: "Wisdom is gained through ...", a: "Experience", choices: ["Experience","Books","Luck","Wealth"] },
-      { q: "What defines one's Dao?", a: "Choices", choices: ["Choices","Power","Wealth","Followers"] },
-      { q: "True enlightenment is found in?", a: "Understanding", choices: ["Understanding","Victory","Isolation","Conflict"] },
-      { q: "What is the greatest test on the path?", a: "Sacrifice", choices: ["Sacrifice","Strength","Speed","Companions"] }
-    ];
-
-    // ==== Relationship System ====
-    const npcTypes = [
+    let npcFamilies = ["Zhou", "Mei", "Chen", "Li", "Xiao", "Wang", "Yu", "Tian", "Luo", "Fang", "Qin", "Hua", "Lan", "Jin", "Rong", "Bo", "Wei", "Shen", "Min", "Yan"];
+    function randomFrom(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+    function clamp(val,min,max) { return Math.max(min,Math.min(max,val)); }
+    let npcTypes = [
       {type:"rival", label:"Rival", color:"npc-rival"},
       {type:"ally", label:"Ally", color:"npc-ally"},
       {type:"family", label:"Family", color:"npc-family"},
@@ -153,23 +220,43 @@
       {type:"mentor", label:"Mentor", color:"npc-mentor"},
       {type:"disciple", label:"Disciple", color:"npc-disciple"}
     ];
-    const npcNames = [
-      "Zhou", "Mei", "Chen", "Li", "Xiao", "Wang", "Yu", "Tian", "Luo", "Fang", "Qin", "Hua", "Lan", "Jin", "Rong", "Bo", "Wei", "Shen", "Min", "Yan"
-    ];
-    const npcTraits = [
-      "Loyal", "Ambitious", "Hot-headed", "Wise", "Jealous", "Generous", "Secretive", "Bold", "Kind", "Scheming", "Righteous", "Detached"
-    ];
-
-    function randomFrom(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
-    function clamp(val,min,max) { return Math.max(min,Math.min(max,val)); }
-
-    // ==== Generational/Legacy State ====
-    let familyTree = [];
-    let inheritedQuests = [];
-    let currentGeneration = 1;
-    let parentName = "";
-    let descendantName = "";
-    let talentBonusActive = false;
+    let npcTraits = ["Loyal", "Ambitious", "Hot-headed", "Wise", "Jealous", "Generous", "Secretive", "Bold", "Kind", "Scheming", "Righteous", "Detached"];
+    let npcPool = [];
+    let knownNPCs = [];
+    function createNPC(index) {
+      let typeObj = randomFrom(npcTypes);
+      let family = randomFrom(npcFamilies) + " Family";
+      let locationObj = randomFrom(worldLocations);
+      let affiliation = locationObj.type === "Kingdom" ? locationObj.name : family;
+      return {
+        id: "npc-"+index+"-"+family+"-"+Math.floor(Math.random()*10000),
+        name: randomFrom(npcFamilies)+" "+(Math.random()<0.4 ? randomFrom(npcFamilies) : ""),
+        type: typeObj.type,
+        label: typeObj.label,
+        color: typeObj.color,
+        trait: randomFrom(npcTraits),
+        family: family,
+        affiliation: affiliation,
+        relationship: clamp(Math.floor(Math.random()*60)+20,0,100),
+        talent: clamp(Math.floor(Math.random()*4)+1,1,6),
+        age: Math.floor(Math.random()*30)+14,
+        qi: Math.floor(Math.random()*150),
+        qiPerSec: 1,
+        realmIndex: Math.floor(Math.random()*3),
+        miniStageIndex: Math.floor(Math.random()*2),
+        alive: true,
+        married: false,
+        spouseId: null,
+        history: [],
+        location: locationObj.name
+      };
+    }
+    function generateNPCPool(n=15) {
+      npcPool = [];
+      knownNPCs = [];
+      for (let i=0;i<n;i++) npcPool.push(createNPC(i));
+    }
+    generateNPCPool();
 
     // ==== Player State ====
     let player = {
@@ -184,47 +271,10 @@
       realmIndex: 0,
       miniStageIndex: 0,
       quests: [],
-      alive: true
+      alive: true,
+      infamy: 0,
+      kingdom: null
     };
-
-    // ==== NPC Pool & Known NPCs ====
-    let npcPool = [];
-    let knownNPCs = [];
-    function createNPC(index) {
-      let typeObj = randomFrom(npcTypes);
-      return {
-        id: "npc-"+index+"-"+currentGeneration+"-"+Math.floor(Math.random()*10000),
-        name: randomFrom(npcNames)+" "+(Math.random()<0.4 ? randomFrom(npcNames) : ""),
-        type: typeObj.type,
-        label: typeObj.label,
-        color: typeObj.color,
-        trait: randomFrom(npcTraits),
-        relationship: clamp(Math.floor(Math.random()*60)+20,0,100),
-        talent: clamp(Math.floor(Math.random()*4)+1,1,6),
-        age: Math.floor(Math.random()*30)+14,
-        qi: Math.floor(Math.random()*150),
-        qiPerSec: 1,
-        realmIndex: Math.floor(Math.random()*3),
-        miniStageIndex: Math.floor(Math.random()*2),
-        alive: true,
-        married: false,
-        spouseId: null,
-        history: [],
-      };
-    }
-    function generateNPCPool(n=12) {
-      npcPool = [];
-      knownNPCs = [];
-      for (let i=0;i<n;i++) npcPool.push(createNPC(i));
-    }
-    generateNPCPool();
-
-    // ==== World Event State ====
-    let currentWorldEvent = null;
-    let worldEventTimer = 0;
-    let qiSecMod = 1;
-    let demonActive = false;
-    let tribulationActive = false;
 
     // ==== UI Elements ====
     const ageDisplay = document.getElementById('ageDisplay');
@@ -234,6 +284,7 @@
     const wealthDisplay = document.getElementById('wealthDisplay');
     const qiDisplay = document.getElementById('qiDisplay');
     const qpsDisplay = document.getElementById('qpsDisplay');
+    const infamyDisplay = document.getElementById('infamyDisplay');
     const realmDisplay = document.getElementById('realmDisplay');
     const miniStageDisplay = document.getElementById('miniStageDisplay');
     const advanceBtn = document.getElementById('advanceBtn');
@@ -243,174 +294,123 @@
     const familyTreeDiv = document.getElementById('familyTree');
     const inheritedQuestsDiv = document.getElementById('inheritedQuests');
     const npcPanel = document.getElementById('npcPanel');
-    const npcPanelContent = document.getElementById('npcPanelContent');
     const knownNpcListDiv = document.getElementById('knownNpcList');
     const relationshipBtn = document.getElementById('relationshipBtn');
     const closeNpcPanelBtn = document.getElementById('closeNpcPanel');
+    const saveBtn = document.getElementById('saveBtn');
+    const loadBtn = document.getElementById('loadBtn');
+    const saveStatus = document.getElementById('saveStatus');
+    const ageBar = document.getElementById('ageBar');
+    const ageBarLabel = document.getElementById('ageBarLabel');
+    const healthBar = document.getElementById('healthBar');
+    const healthBarLabel = document.getElementById('healthBarLabel');
+    const relBar = document.getElementById('relBar');
+    const relBarLabel = document.getElementById('relBarLabel');
+    const qiBar = document.getElementById('qiBar');
+    const qiBarLabel = document.getElementById('qiBarLabel');
+    const worldBtn = document.getElementById('worldBtn');
+    const worldTab = document.getElementById('worldTab');
+    const locationList = document.getElementById('locationList');
+    const closeWorldTabBtn = document.getElementById('closeWorldTab');
+    const kingdomInfoPanel = document.getElementById('kingdomInfoPanel');
+    // Kingdom Naming Modal
+    const kingdomModal = document.getElementById('kingdomModal');
+    const kingdomNameInput = document.getElementById('kingdomNameInput');
+    const confirmKingdomNameBtn = document.getElementById('confirmKingdomNameBtn');
+    const kingdomModalMsg = document.getElementById('kingdomModalMsg');
 
-    // Quiz modal
-    const quizModal = document.getElementById('quizModal');
-    const quizQuestionsDiv = document.getElementById('quizQuestions');
-    const quizSubmitBtn = document.getElementById('quizSubmitBtn');
-    const quizTitle = document.getElementById('quizTitle');
-    const quizStatus = document.getElementById('quizStatus');
-
-    // ==== Quiz Logic ====
-    function getRandomQuizQuestions(n=3) {
-      let arr = quizPools.slice();
-      let out = [];
-      while (out.length < n && arr.length > 0) {
-        let idx = Math.floor(Math.random() * arr.length);
-        out.push(arr.splice(idx,1)[0]);
-      }
-      return out;
-    }
-    function showQuiz(callback, tribulation=false) {
-      quizTitle.textContent = tribulation ? "Heavenly Tribulation Quiz!" : "Major Breakthrough Quiz";
-      const questions = getRandomQuizQuestions(tribulation ? 4 : 3);
-      quizQuestionsDiv.innerHTML = '';
-      quizStatus.textContent = '';
-      questions.forEach((q, i) => {
-        const div = document.createElement('div');
-        div.innerHTML = `<b>Q${i+1}:</b> ${q.q}<br>`;
-        q.choices.forEach(choice => {
-          div.innerHTML += `<label><input type="radio" name="quizQ${i}" value="${choice}"> ${choice}</label> `;
-        });
-        quizQuestionsDiv.appendChild(div);
-      });
-      quizModal.style.display = 'block';
-      quizSubmitBtn.onclick = function() {
-        let correct = 0;
-        questions.forEach((q, i) => {
-          const radios = document.getElementsByName(`quizQ${i}`);
-          let answer = "";
-          for (const r of radios) if (r.checked) answer = r.value;
-          if (answer === q.a) correct++;
-        });
-        quizStatus.textContent = `You got ${correct}/${questions.length} correct!`;
-        setTimeout(() => {
-          quizModal.style.display = 'none';
-          callback(correct >= Math.ceil(questions.length/2));
-        }, 1300);
+    // ==== Save & Load System ====
+    function saveGame() {
+      const gameState = {
+        player,
+        npcPool,
+        knownNPCs,
+        worldNews
       };
+      localStorage.setItem('greatdao_save', JSON.stringify(gameState));
+      saveStatus.textContent = "Game Saved!";
+      setTimeout(()=>saveStatus.textContent="",2000);
+    }
+    function loadGame() {
+      const data = localStorage.getItem('greatdao_save');
+      if (data) {
+        try {
+          const state = JSON.parse(data);
+          player = state.player;
+          npcPool = state.npcPool;
+          knownNPCs = state.knownNPCs;
+          worldNews = state.worldNews || [];
+          saveStatus.textContent = "Game Loaded!";
+          updateUI();
+          setTimeout(()=>saveStatus.textContent="",2000);
+        } catch(e) {
+          saveStatus.textContent = "Load Failed!";
+        }
+      } else {
+        saveStatus.textContent = "No Save Found!";
+      }
+    }
+    window.onload = function() {
+      if (localStorage.getItem('greatdao_save')) {
+        loadGame();
+      }
+    };
+    saveBtn.onclick = saveGame;
+    loadBtn.onclick = loadGame;
+
+    // ==== World Tab logic with merged actions ====
+    worldBtn.onclick = function() {
+      renderWorldTab();
+      worldTab.style.display = "block";
+    };
+    closeWorldTabBtn.onclick = function() {
+      worldTab.style.display = "none";
+      closeActionsMenu();
+    };
+
+    function renderWorldTab() {
+      let locMap = {};
+      worldLocations.forEach(loc => locMap[loc.name] = []);
+      knownNPCs.forEach(npc => {
+        if (!locMap[npc.location]) locMap[npc.location] = [];
+        locMap[npc.location].push(npc);
+      });
+      locationList.innerHTML = Object.keys(locMap).map(locName => {
+        let loc = worldLocations.find(l=>l.name===locName);
+        let npcsHere = locMap[locName] || [];
+        let isKingdom = loc?.type === "Kingdom";
+        let isControlled = player.kingdom && player.kingdom.location === locName;
+        let controlBtn = !isControlled && isKingdom && !loc.ruler ?
+          `<button onclick="window.claimKingdom('${locName}')">Conquer & Control</button>` : "";
+        let kingdomInfo = isKingdom ?
+          `<div class="kingdom-info">
+            Wealth: ${loc.resources.wealth} | Qi: ${loc.resources.qi} | Troops: ${loc.resources.troops} 
+            | Ruler: ${loc.ruler || "None"}
+            ${controlBtn}
+          </div>` : "";
+        // Merged actions button for location/party/kingdom
+        let mergedActionsBtn = `<button class="merged-actions-btn" onclick="window.openActionsMenu('${locName}', event)">Actions</button>`;
+        return `
+          <div class="location-block">
+            <div class="location-title">${loc?.name || locName} <small>(${loc?.type || ""})</small></div>
+            ${kingdomInfo}
+            <div class="location-npcs">
+              ${npcsHere.length ? npcsHere.map(npc =>
+                `<span class="${npc.color}">${npc.name} (${npc.label}, Talent:${npc.talent})
+                  <button class="merged-actions-btn" onclick="window.openActionsMenuForNPC('${npc.id}', event)">Actions</button>
+                </span>`
+              ).join(", ") : "<em>No known NPCs here.</em>"}
+            </div>
+            ${mergedActionsBtn}
+          </div>
+        `;
+      }).join("");
     }
 
-    // ==== Life Actions ====
-    document.getElementById('studyBtn').onclick = function() {
-      if (player.wealth >= 5) {
-        player.wealth -= 5; player.talent += 1;
-        eventMsg.textContent = "You studied hard! Talent increased.";
-      } else {
-        eventMsg.textContent = "Not enough wealth to study.";
-      }
-      updateUI();
-    };
-    document.getElementById('trainBtn').onclick = function() {
-      player.health = Math.max(player.health - 3, 0); player.qiPerSec += player.talent;
-      eventMsg.textContent = "You trained. Qi/sec increased by your talent.";
-      updateUI();
-    };
-    document.getElementById('workBtn').onclick = function() {
-      player.wealth += 15; player.health = Math.max(player.health - 2, 0);
-      eventMsg.textContent = "You worked and earned money.";
-      updateUI();
-    };
-    document.getElementById('restBtn').onclick = function() {
-      player.health = Math.min(player.health + 6, 100);
-      eventMsg.textContent = "You rested. Health restored.";
-      updateUI();
-    };
-    document.getElementById('meetBtn').onclick = function() {
-      // Reveal a random NPC not yet known
-      let unknowns = npcPool.filter(npc=>!knownNPCs.some(k=>k.id===npc.id));
-      if (unknowns.length > 0) {
-        let npc = randomFrom(unknowns);
-        knownNPCs.push(npc);
-        player.relationships += 1;
-        eventMsg.textContent = `You met ${npc.name}, a ${npc.label}. They are now in your life.`;
-        npc.history.push(`Met player (+7)`);
-      } else {
-        eventMsg.textContent = "You have met all possible NPCs for this generation.";
-      }
-      updateUI();
-    };
-    document.getElementById('cultivateBtn').onclick = function() {
-      player.health = Math.max(player.health - 1, 0); player.qiPerSec += Math.floor(player.talent/2);
-      eventMsg.textContent = "You meditate, Qi/sec rises.";
-      updateUI();
-    };
-
-    // ==== Advancement logic ====
-    advanceBtn.onclick = function() {
-      let nextQiNeeded = qiNeeded[player.realmIndex]?.[player.miniStageIndex] || 0;
-      if (player.qi >= nextQiNeeded) {
-        if (player.miniStageIndex === miniStages.length-1) {
-          showQuiz(function(passed) {
-            if (passed) {
-              breakthroughMsg.textContent = `Quiz passed! You broke through to ${mainRealms[player.realmIndex+1] || "the peak!"}`;
-              eventMsg.textContent = "A new realm opens before you.";
-              player.qiPerSec += 5 * (player.realmIndex+1);
-              player.miniStageIndex = 0;
-              player.realmIndex++;
-              if (talentBonusActive) {
-                player.talent += 2;
-              }
-              inheritedQuests = inheritedQuests.filter(q => q.type !== "breakthrough" || q.realm !== mainRealms[player.realmIndex]);
-            } else {
-              breakthroughMsg.textContent = "Quiz failed! You failed to break through. Try again after cultivating further.";
-              eventMsg.textContent = "You feel a bottleneck in your cultivation.";
-              if (tribulationActive) {
-                player.qi = Math.max(0, Math.floor(player.qi / 2));
-                player.talent = Math.max(1, player.talent - 1);
-              }
-            }
-            updateUI();
-          }, tribulationActive);
-        } else {
-          player.miniStageIndex++;
-          breakthroughMsg.textContent = `Advanced to ${miniStages[player.miniStageIndex]} Stage of ${mainRealms[player.realmIndex]}`;
-          eventMsg.textContent = "Your cultivation base grows.";
-          player.qiPerSec += 2 * (player.miniStageIndex+1);
-          updateUI();
-        }
-      }
-    };
-
-    // ==== Relationship Actions ====
-    function npcAction(npc, action) {
-      let msg = "";
-      switch(action) {
-        case "talk":
-          npc.relationship = clamp(npc.relationship+5,0,100);
-          msg = `You talked with ${npc.name}. Relationship improved!`;
-          npc.history.push("Talked (+5)");
-          break;
-        case "gift":
-          if (player.wealth >= 10) {
-            player.wealth -= 10;
-            npc.relationship = clamp(npc.relationship+12,0,100);
-            msg = `You gave a gift to ${npc.name}. Relationship greatly improved!`;
-            npc.history.push("Gifted (+12)");
-          } else {
-            msg = "Not enough wealth to buy a gift.";
-          }
-          break;
-        case "duel":
-          if (Math.random()<0.5) {
-            npc.relationship = clamp(npc.relationship-10,0,100);
-            msg = `You lost the duel! ${npc.name} looks down on you.`;
-            npc.history.push("Lost duel (-10)");
-          } else {
-            npc.relationship = clamp(npc.relationship+8,0,100);
-            msg = `You won the duel! ${npc.name} respects you more.`;
-            npc.history.push("Won duel (+8)");
-          }
-          break;
-        case "train":
-          npc.relationship = clamp(npc.relationship+3,0,100);
-          msg = `You trained with ${npc.name}. Relationship increased.`;
-          npc.history.push("Trained (+3)");
-          break;
-        case "befriend":
-          if (npc.relationship>75 && npc.type!=="ally") {
-   
+    // ==== Merged Actions Menus ====
+    let actionsMenuDiv = null;
+    window.openActionsMenu = function(locName, ev) {
+      closeActionsMenu();
+      actionsMenuDiv = document.createElement('div');
+      actionsMenuDiv.className = "actions-menu";
+      actionsMenuDiv.style.top = ev.clientY + "px";
