@@ -4,488 +4,429 @@
   <meta charset="UTF-8">
   <title>Great Dao</title>
   <style>
-    body {
-      font-family: 'Segoe UI', 'Arial', sans-serif;
-      background: linear-gradient(180deg, #dbe8ff 0%, #b5c2e8 100%);
-      color: #333;
-      margin: 0;
-    }
-    .top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      background: #4b5c7e;
-      color: #fff;
-      font-size: 1.1em;
-      padding: 10px 20px;
-      border-bottom: 2px solid #bac6e6;
-      position: relative;
-      height: 48px;
-      box-shadow: 0 2px 8px #b5c2e8;
-      z-index: 2;
-    }
-    .top-bar .currency {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-    }
-    .currency-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: bold;
-      font-size: 1.05em;
-      background: rgba(255,255,255,0.07);
-      border-radius: 18px;
-      padding: 2px 12px;
-      box-shadow: 0 2px 8px #4442;
-    }
-    .currency-icon {
-      width: 22px;
-      height: 22px;
-      display: inline-block;
-      vertical-align: middle;
-      background-size: cover;
-    }
-    .currency-icon.gold {
-      background-image: url('https://img.icons8.com/fluency/48/000000/money.png');
-    }
-    .currency-icon.stone {
-      background-image: url('https://img.icons8.com/fluency/48/000000/diamond.png');
-    }
-    .container {
-      margin: 0 auto;
-      padding: 18px 0 0 0;
-      max-width: 470px;
-      min-height: 100vh;
-      position: relative;
-    }
-    .avatar-bar {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      margin: 16px 0 6px 0;
-      position: relative;
-    }
-    .avatar {
-      width: 74px;
-      height: 74px;
-      border-radius: 50%;
-      border: 3px solid #e2e6f6;
-      background: #f8f8ff url('https://img.icons8.com/emoji/96/000000/baby-emoji.png') center center/70% no-repeat;
-      box-shadow: 0 2px 10px #b5c2e8;
-    }
-    .avatar-info {
-      flex: 1;
-      margin-left: 2px;
-    }
-    .avatar-name {
-      font-size: 1.25em;
-      font-weight: bold;
-      letter-spacing: 1px;
-      margin-bottom: 2px;
-      color: #4b5c7e;
-    }
-    .avatar-title {
-      font-size: 1em;
-      color: #7e3ff2;
-      margin-bottom: 5px;
-    }
-    .stats-section {
-      background: #f4f6fbcc;
-      border-radius: 22px;
-      box-shadow: 0 2px 16px #b5c2e8;
-      padding: 18px 14px 14px 14px;
-      margin-bottom: 18px;
-      margin-top: 0;
-    }
-    .stat-bar {
-      display: flex;
-      align-items: center;
-      margin-bottom: 11px;
-      gap: 9px;
-    }
-    .stat-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      min-width: 80px;
-      font-size: 1.05em;
-      color: #4b5c7e;
-      font-weight: 500;
-      letter-spacing: .5px;
-    }
-    .stat-icon {
-      width: 22px;
-      height: 22px;
-      background-size: cover;
-      vertical-align: middle;
-      margin-right: 2px;
-    }
-    .stat-bar-bg {
-      flex: 1;
-      height: 18px;
-      background: #e5e9f4;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #b5c2e822;
-      overflow: hidden;
-      position: relative;
-      margin: 0 4px;
-    }
-    .stat-bar-fill {
-      height: 100%;
-      border-radius: 12px;
-      transition: width 0.6s;
-      box-shadow: 0 1px 8px #7772;
-    }
-    .stat-value {
-      min-width: 34px;
-      text-align: right;
-      font-size: 1.08em;
-      font-weight: bold;
-      color: #333;
-    }
-    /* Stat colors */
-    .bar-age      { background: linear-gradient(90deg,#a8c0ff,#f8ffae); }
-    .bar-health   { background: linear-gradient(90deg,#ffb6b6,#ffd86b); }
-    .bar-talent   { background: linear-gradient(90deg,#7e3ff2,#ffd86b); }
-    .bar-wealth   { background: linear-gradient(90deg,#ffd86b,#fffbe6); }
-    .bar-stones   { background: linear-gradient(90deg,#c6e2ff,#70e3e3); }
-    .bar-rel      { background: linear-gradient(90deg,#ffd9a0,#7e3ff2); }
-    .bar-qi       { background: linear-gradient(90deg,#7e3ff2,#ffd86b); }
-    .bar-qps      { background: linear-gradient(90deg,#70e3e3,#ffd9a0); }
-    .bar-infamy   { background: linear-gradient(90deg,#e34b4b,#ffd9a0); }
+  body {
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  background: linear-gradient(180deg, #dbe8ff 0%, #b5c2e8 100%);
+  color: #333;
+  margin: 0;
+}
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: #4b5c7e;
+  color: #fff;
+  font-size: 1.1em;
+  padding: 10px 20px;
+  border-bottom: 2px solid #bac6e6;
+  position: relative;
+  height: 48px;
+  box-shadow: 0 2px 8px #b5c2e8;
+  z-index: 2;
+}
+.top-bar .currency {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.currency-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 1.05em;
+  background: rgba(255,255,255,0.07);
+  border-radius: 18px;
+  padding: 2px 12px;
+  box-shadow: 0 2px 8px #4442;
+}
+.currency-icon {
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  vertical-align: middle;
+  background-size: cover;
+}
+.currency-icon.gold {
+  background-image: url('https://img.icons8.com/fluency/48/000000/money.png');
+}
+.currency-icon.stone {
+  background-image: url('https://img.icons8.com/fluency/48/000000/diamond.png');
+}
+.container {
+  margin: 0 auto;
+  padding: 18px 0 0 0;
+  max-width: 470px;
+  min-height: 100vh;
+  position: relative;
+}
+.avatar-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 16px 0 6px 0;
+  position: relative;
+}
+.avatar {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  border: 3px solid #e2e6f6;
+  background: #f8f8ff url('https://img.icons8.com/emoji/96/000000/baby-emoji.png') center center/70% no-repeat;
+  box-shadow: 0 2px 10px #b5c2e8;
+}
+.avatar-info {
+  flex: 1;
+  margin-left: 2px;
+}
+.avatar-name {
+  font-size: 1.25em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+  color: #4b5c7e;
+}
+.avatar-title {
+  font-size: 1em;
+  color: #7e3ff2;
+  margin-bottom: 5px;
+}
+.stats-section {
+  background: #f4f6fbcc;
+  border-radius: 22px;
+  box-shadow: 0 2px 16px #b5c2e8;
+  padding: 18px 14px 14px 14px;
+  margin-bottom: 18px;
+  margin-top: 0;
+}
+.stat-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 11px;
+  gap: 9px;
+}
+.stat-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 80px;
+  font-size: 1.05em;
+  color: #4b5c7e;
+  font-weight: 500;
+  letter-spacing: .5px;
+}
+.stat-icon {
+  width: 22px;
+  height: 22px;
+  background-size: cover;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+.stat-bar-bg {
+  flex: 1;
+  height: 18px;
+  background: #e5e9f4;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #b5c2e822;
+  overflow: hidden;
+  position: relative;
+  margin: 0 4px;
+}
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.6s;
+  box-shadow: 0 1px 8px #7772;
+}
+.stat-value {
+  min-width: 34px;
+  text-align: right;
+  font-size: 1.08em;
+  font-weight: bold;
+  color: #333;
+}
+/* Stat colors */
+.bar-age      { background: linear-gradient(90deg,#a8c0ff,#f8ffae); }
+.bar-health   { background: linear-gradient(90deg,#ffb6b6,#ffd86b); }
+.bar-talent   { background: linear-gradient(90deg,#7e3ff2,#ffd86b); }
+.bar-wealth   { background: linear-gradient(90deg,#ffd86b,#fffbe6); }
+.bar-stones   { background: linear-gradient(90deg,#c6e2ff,#70e3e3); }
+.bar-rel      { background: linear-gradient(90deg,#ffd9a0,#7e3ff2); }
+.bar-qi       { background: linear-gradient(90deg,#7e3ff2,#ffd86b); }
+.bar-qps      { background: linear-gradient(90deg,#70e3e3,#ffd9a0); }
+.bar-infamy   { background: linear-gradient(90deg,#e34b4b,#ffd9a0); }
 
-    /* Central round button */
-    .advance-btn {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background: #e6eaff linear-gradient(180deg,#7e3ff2 0%,#ffd86b 100%);
-      color: #fff;
-      font-size: 1.85em;
-      font-weight: bold;
-      border: 3px solid #bac6e6;
-      margin: 0 auto 18px auto;
-      box-shadow: 0 2px 16px #7e3ff288, 0 2px 32px #ffd86b44;
-      display: block;
-      cursor:pointer;
-      transition: transform 0.15s, box-shadow 0.18s;
-      position: relative;
-    }
-    .advance-btn:disabled {
-      background: #dbe8ff;
-      color: #bbb;
-      border-color: #e5e9f4;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    .advance-btn:hover:not(:disabled) {
-      transform: scale(1.06);
-      box-shadow: 0 4px 22px #7e3ff2bb;
-      background: #b5c2e8 linear-gradient(180deg,#ffd86b 0%,#7e3ff2 100%);
-    }
-    /* Diamond buttons */
-    .diamond-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px 14px;
-      justify-content: center;
-      margin-bottom: 8px;
-      margin-top: 4px;
-    }
-    .diamond-btn {
-      width: 78px;
-      height: 78px;
-      background: linear-gradient(135deg,#e6eaff 40%,#7e3ff2 100%);
-      color: #fff;
-      font-size: 1.11em;
-      font-weight: bold;
-      border: none;
-      box-shadow: 0 2px 16px #7e3ff2cc;
-      border-radius: 16px;
-      transform: rotate(45deg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor:pointer;
-      position: relative;
-      transition: box-shadow 0.18s, background 0.18s, transform 0.14s;
-      outline: none;
-    }
-    .diamond-btn:disabled {
-      background: #cbd4e6;
-      color: #bbb;
-      cursor:not-allowed;
-      box-shadow: none;
-    }
-    .diamond-btn:hover:not(:disabled) {
-      box-shadow: 0 6px 32px #ffd86b88;
-      background: linear-gradient(135deg,#ffd86b 40%,#7e3ff2 100%);
-      transform: rotate(45deg) scale(1.09);
-      z-index: 1;
-    }
-    .diamond-btn-label {
-      transform: rotate(-45deg);
-      text-align: center;
-      width: 100%;
-      font-size: 1.07em;
-      pointer-events: none;
-    }
-    /* Responsive */
-    @media (max-width: 600px) {
-      .container { padding: 8px 2vw; }
-      .advance-btn { width: 80px; height:80px; font-size:1.32em; }
-      .diamond-btn { width:55px; height:55px; font-size:0.92em;}
-      .diamond-buttons { gap: 8px 5px;}
-      .top-bar { font-size:1em; padding:7px 10px;}
-      .avatar { width: 44px; height:44px;}
-      .avatar-bar { gap:7px;}
-      .stats-section { padding:10px 5px;}
-      .stat-label { min-width:50px; font-size:0.91em;}
-    }
-    /* Hide old action bar */
-    .action-bar-old { display: none!important; }
-    .popup-menu {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 102%;
-      background: #232340;
-      border-radius: 8px;
-      box-shadow: 0 2px 12px #7e3ff2;
-      padding: 4px 0;
-      min-width:120px;
-      z-index: 100;
-    }
-    .popup-menu button {
-      width: 100%;
-      background: none;
-      color: #fff;
-      border: none;
-      padding:8px 12px;
-      font-size:0.98em;
-      text-align:left;
-      cursor:pointer;
-      transition: background 0.18s;
-      border-radius: 5px;
-    }
-    .popup-menu button:hover {
-      background: #7e3ff2;
-      color: #ffd86b;
-    }
+/* Central round button */
+.advance-btn {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #e6eaff linear-gradient(180deg,#7e3ff2 0%,#ffd86b 100%);
+  color: #fff;
+  font-size: 1.85em;
+  font-weight: bold;
+  border: 3px solid #bac6e6;
+  margin: 0 auto 18px auto;
+  box-shadow: 0 2px 16px #7e3ff288, 0 2px 32px #ffd86b44;
+  display: block;
+  cursor:pointer;
+  transition: transform 0.15s, box-shadow 0.18s;
+  position: relative;
+}
+.advance-btn:disabled {
+  background: #dbe8ff;
+  color: #bbb;
+  border-color: #e5e9f4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.advance-btn:hover:not(:disabled) {
+  transform: scale(1.06);
+  box-shadow: 0 4px 22px #7e3ff2bb;
+  background: #b5c2e8 linear-gradient(180deg,#ffd86b 0%,#7e3ff2 100%);
+}
+/* Diamond buttons */
+.diamond-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 14px;
+  justify-content: center;
+  margin-bottom: 8px;
+  margin-top: 4px;
+}
+.diamond-btn {
+  width: 78px;
+  height: 78px;
+  background: linear-gradient(135deg,#e6eaff 40%,#7e3ff2 100%);
+  color: #fff;
+  font-size: 1.11em;
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 2px 16px #7e3ff2cc;
+  border-radius: 16px;
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor:pointer;
+  position: relative;
+  transition: box-shadow 0.18s, background 0.18s, transform 0.14s;
+  outline: none;
+}
+.diamond-btn:disabled {
+  background: #cbd4e6;
+  color: #bbb;
+  cursor:not-allowed;
+  box-shadow: none;
+}
+.diamond-btn:hover:not(:disabled) {
+  box-shadow: 0 6px 32px #ffd86b88;
+  background: linear-gradient(135deg,#ffd86b 40%,#7e3ff2 100%);
+  transform: rotate(45deg) scale(1.09);
+  z-index: 1;
+}
+.diamond-btn-label {
+  transform: rotate(-45deg);
+  text-align: center;
+  width: 100%;
+  font-size: 1.07em;
+  pointer-events: none;
+}
+/* Responsive */
+@media (max-width: 600px) {
+  .container { padding: 8px 2vw; }
+  .advance-btn { width: 80px; height:80px; font-size:1.32em; }
+  .diamond-btn { width:55px; height:55px; font-size:0.92em;}
+  .diamond-buttons { gap: 8px 5px;}
+  .top-bar { font-size:1em; padding:7px 10px;}
+  .avatar { width: 44px; height:44px;}
+  .avatar-bar { gap:7px;}
+  .stats-section { padding:10px 5px;}
+  .stat-label { min-width:50px; font-size:0.91em;}
+}
+/* Hide old action bar */
+.action-bar-old { display: none!important; }
+.popup-menu {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 102%;
+  background: #232340;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px #7e3ff2;
+  padding: 4px 0;
+  min-width:120px;
+  z-index: 100;
+}
+.popup-menu button {
+  width: 100%;
+  background: none;
+  color: #fff;
+  border: none;
+  padding:8px 12px;
+  font-size:0.98em;
+  text-align:left;
+  cursor:pointer;
+  transition: background 0.18s;
+  border-radius: 5px;
+}
+.popup-menu button:hover {
+  background: #7e3ff2;
+  color: #ffd86b;
+}
   </style>
 </head>
 <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Great Dao Cultivation Idle Game</title>
+  <link rel="stylesheet" href="great-dao.css">
+</head>
+<body>
+  <!-- Top Bar with Currency -->
   <div class="top-bar">
     <div class="currency">
-      <span class="currency-item"><span class="currency-icon gold"></span><span id="wealthDisplay"></span></span>
-      <span class="currency-item"><span class="currency-icon stone"></span><span id="spiritStoneDisplay"></span></span>
+      <span class="currency-item">
+        <span class="currency-icon gold"></span>
+        <span id="wealthDisplayBar">0</span> Wealth
+      </span>
+      <span class="currency-item">
+        <span class="currency-icon stone"></span>
+        <span id="spiritStoneDisplayBar">0</span> Spirit Stones
+      </span>
     </div>
   </div>
+
+  <!-- Main Container -->
   <div class="container">
+    <!-- Player Avatar and Info -->
     <div class="avatar-bar">
       <div class="avatar"></div>
       <div class="avatar-info">
         <div class="avatar-name" id="playerNameDisplay">You</div>
-        <div class="avatar-title" id="realmDisplay"></div>
-        <div style="font-size:.95em;color:#888;" id="miniStageDisplay"></div>
+        <div class="avatar-title"><span id="realmDisplay"></span> <span id="miniStageDisplay"></span></div>
       </div>
     </div>
+
+    <!-- Stats Section -->
     <div class="stats-section">
       <div class="stat-bar">
-        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/clock.png')"></span>Age</span>
-        <div class="stat-bar-bg"><div id="ageBar" class="stat-bar-fill bar-age"></div></div>
-        <span class="stat-value" id="ageDisplay"></span>
+        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/age.png');"></span>Age</div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill bar-age" id="ageBar"></div></div>
+        <span class="stat-value" id="ageDisplay">16</span>
       </div>
       <div class="stat-bar">
-        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/heart-health.png')"></span>Health</span>
-        <div class="stat-bar-bg"><div id="healthBar" class="stat-bar-fill bar-health"></div></div>
-        <span class="stat-value" id="healthDisplay"></span>
+        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/heart-health.png');"></span>Health</div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill bar-health" id="healthBar"></div></div>
+        <span class="stat-value" id="healthDisplay">100</span>
       </div>
       <div class="stat-bar">
-        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/brain.png')"></span>Talent</span>
-        <div class="stat-bar-bg"><div id="talentBar" class="stat-bar-fill bar-talent"></div></div>
-        <span class="stat-value" id="talentDisplay"></span>
+        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/brain.png');"></span>Talent</div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill bar-talent" id="talentBar"></div></div>
+        <span class="stat-value" id="talentDisplay">2</span>
       </div>
       <div class="stat-bar">
-        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/money.png')"></span>Wealth</span>
-        <div class="stat-bar-bg"><div id="wealthBar" class="stat-bar-fill bar-wealth"></div></div>
-        <span class="stat-value" id="wealthDisplayBar"></span>
+        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/money.png');"></span>Wealth</div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill bar-wealth" id="wealthBar"></div></div>
+        <span class="stat-value" id="wealthDisplay">50</span>
       </div>
       <div class="stat-bar">
-        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/diamond.png')"></span>Spirit Stones</span>
-        <div class="stat-bar-bg"><div id="stoneBar" class="stat-bar-fill bar-stones"></div></div>
-        <span class="stat-value" id="spiritStoneDisplayBar"></span>
+        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/diamond.png');"></span>Spirit Stones</div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill bar-stones" id="stoneBar"></div></div>
+        <span class="stat-value" id="spiritStoneDisplay">15</span>
       </div>
       <div class="stat-bar">
-        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/group.png')"></span>Relationships</span>
-        <div class="stat-bar-bg"><div id="relBar" class="stat-bar-fill bar-rel"></div></div>
-        <span class="stat-value" id="relDisplay"></span>
+        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/handshake.png');"></span>Relationships</div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill bar-rel" id="relBar"></div></div>
+        <span class="stat-value" id="relDisplay">0</span>
       </div>
       <div class="stat-bar">
-        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/energy.png')"></span>Qi</span>
-        <div class="stat-bar-bg"><div id="qiBar" class="stat-bar-fill bar-qi"></div></div>
-        <span class="stat-value" id="qiDisplay"></span>
+        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/rock.png');"></span>Qi</div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill bar-qi" id="qiBar"></div></div>
+        <span class="stat-value" id="qiDisplay">0</span>
       </div>
       <div class="stat-bar">
-        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/lightning-bolt.png')"></span>Qi/sec</span>
-        <div class="stat-bar-bg"><div id="qpsBar" class="stat-bar-fill bar-qps"></div></div>
-        <span class="stat-value" id="qpsDisplay"></span>
+        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/rocket.png');"></span>Qi/sec</div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill bar-qps" id="qpsBar"></div></div>
+        <span class="stat-value" id="qpsDisplay">1</span>
       </div>
       <div class="stat-bar">
-        <span class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/fluency/48/error.png')"></span>Infamy</span>
-        <div class="stat-bar-bg"><div id="infamyBar" class="stat-bar-fill bar-infamy"></div></div>
-        <span class="stat-value" id="infamyDisplay"></span>
+        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/bomb.png');"></span>Infamy</div>
+        <div class="stat-bar-bg"><div class="stat-bar-fill bar-infamy" id="infamyBar"></div></div>
+        <span class="stat-value" id="infamyDisplay">0</span>
       </div>
     </div>
+
+    <!-- Main Action Button -->
     <button id="advanceBtn" class="advance-btn">Advance</button>
+    <div id="breakthroughMsg" style="text-align:center; color:#7e3ff2; margin-bottom:8px;"></div>
+
+    <!-- Diamond Buttons for Life Actions -->
     <div class="diamond-buttons">
-      <button id="dailyActionsBtn" class="diamond-btn"><span class="diamond-btn-label">Daily<br>Actions</span></button>
-      <button id="socialBtn" class="diamond-btn"><span class="diamond-btn-label">Social</span></button>
-      <button id="worldBtn" class="diamond-btn"><span class="diamond-btn-label">World</span></button>
+      <button class="diamond-btn" id="studyBtn"><span class="diamond-btn-label">Study</span></button>
+      <button class="diamond-btn" id="trainBtn"><span class="diamond-btn-label">Train</span></button>
+      <button class="diamond-btn" id="workBtn"><span class="diamond-btn-label">Work</span></button>
+      <button class="diamond-btn" id="restBtn"><span class="diamond-btn-label">Rest</span></button>
+      <button class="diamond-btn" id="meetBtn"><span class="diamond-btn-label">Meet</span></button>
+      <button class="diamond-btn" id="cultivateBtn"><span class="diamond-btn-label">Cultivate</span></button>
+      <button class="diamond-btn" id="relationshipBtn"><span class="diamond-btn-label">Relationships</span></button>
+      <button class="diamond-btn" id="worldBtn"><span class="diamond-btn-label">World</span></button>
+      <button class="diamond-btn" id="worldNewsBtn"><span class="diamond-btn-label">World News</span></button>
+      <button class="diamond-btn" id="saveBtn"><span class="diamond-btn-label">Save</span></button>
+      <button class="diamond-btn" id="loadBtn"><span class="diamond-btn-label">Load</span></button>
     </div>
-    <div class="section action-bar-old">
-      <!-- Old action bar, now hidden by CSS for fallback -->
-      <button id="studyBtn" class="action-btn">Study</button>
-      <button id="trainBtn" class="action-btn">Train</button>
-      <button id="workBtn" class="action-btn">Work</button>
-      <button id="restBtn" class="action-btn">Rest</button>
-      <button id="meetBtn" class="action-btn">Meet NPC</button>
-      <button id="cultivateBtn" class="action-btn">Meditate</button>
-      <button id="relationshipBtn" class="action-btn">Relationships</button>
-      <button id="worldNewsBtn" class="action-btn">World News</button>
-    </div>
-    <div class="breakthrough" id="breakthroughMsg"></div>
-    <div class="event" id="eventMsg"></div>
-    <div id="worldEventBanner"></div>
-    <div class="legacy" id="legacyPanel">
-      <strong class="ancestor">Lineage Legacy:</strong>
-      <div id="familyTree"></div>
-      <div id="inheritedQuests"></div>
-    </div>
-    <div id="kingdomInfoPanel"></div>
-  </div>
-  <!-- WORLD Tab Modal -->
-  <div id="worldTab" style="display:none;">
-    <h2>World</h2>
-    <div id="locationList"></div>
-    <button id="closeWorldTab" style="margin-top:14px;background:#7e3ff2;color:#fff;border:none;padding:8px 18px;border-radius:7px;">Close</button>
-  </div>
-  <!-- World News Modal -->
-  <div id="worldNewsPanel">
-    <div id="worldNewsContent">
-      <button id="closeWorldNewsBtn">Close</button>
-      <h2>World News</h2>
-      <ul id="newsFeed" class="news-feed"></ul>
-    </div>
-  </div>
-  <!-- Kingdom Naming Modal -->
-  <div id="kingdomModal">
-    <div id="kingdomModalContent">
-      <label>Congratulations! You've conquered a kingdom.<br>Choose a name for your new kingdom:</label>
-      <input type="text" id="kingdomNameInput" maxlength="24" placeholder="Enter kingdom name...">
-      <button id="confirmKingdomNameBtn">Confirm</button>
-      <div id="kingdomModalMsg"></div>
-    </div>
-  </div>
-  <!-- NPC Relationship Panel Modal -->
-  <div id="npcPanel">
-    <div id="npcPanelContent">
-      <button id="closeNpcPanel">Close</button>
-      <h2>Your Relationships</h2>
+
+    <!-- Event Messages -->
+    <div id="eventMsg" style="text-align:center; color:#e34b4b; font-weight:bold; margin-top:10px;"></div>
+    <div id="worldEventBanner" style="text-align:center; color:#4b5c7e; font-weight:bold; margin-top:8px;"></div>
+
+    <!-- Relationships Panel -->
+    <div id="npcPanel" style="display:none; position:fixed; left:50%; top:10%; transform:translateX(-50%); background:#fff; border-radius:18px; box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; z-index:100; min-width:270px; max-width:92vw;">
+      <h3 style="text-align:center;">Known NPCs</h3>
       <div id="knownNpcList"></div>
+      <button id="closeNpcPanel" style="display:block; margin:12px auto 0 auto;">Close</button>
+    </div>
+
+    <!-- World Tab -->
+    <div id="worldTab" style="display:none; position:fixed; left:50%; top:8%; transform:translateX(-50%); background:#fff; border-radius:18px; box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; z-index:99; min-width:350px; max-width:97vw;max-height:75vh;overflow-y:auto;">
+      <h3 style="text-align:center;">The World</h3>
+      <div id="locationList"></div>
+      <button id="closeWorldTab" style="display:block; margin:12px auto 0 auto;">Close</button>
+    </div>
+
+    <!-- World News Panel -->
+    <div id="worldNewsPanel" style="display:none; position:fixed; left:50%; top:11%; transform:translateX(-50%); background:#fff; border-radius:18px; box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; z-index:101; min-width:340px; max-width:94vw;max-height:70vh;overflow-y:auto;">
+      <h3 style="text-align:center;">World News</h3>
+      <ul id="newsFeed" style="padding-left:10px;"></ul>
+      <button id="closeWorldNewsBtn" style="display:block; margin:12px auto 0 auto;">Close</button>
+    </div>
+
+    <!-- Kingdom Naming Modal -->
+    <div id="kingdomModal" style="display:none; position:fixed; left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);z-index:999;">
+      <div style="background:#fff; border-radius:18px;box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; min-width:240px; max-width:76vw; margin:100px auto 0 auto;">
+        <h3 style="text-align:center;">Name Your Kingdom</h3>
+        <input id="kingdomNameInput" type="text" style="font-size:1.2em; display:block; margin:12px auto 10px auto; width:80%;padding:6px;">
+        <div id="kingdomModalMsg" style="color:#e34b4b; text-align:center; min-height:22px;"></div>
+        <button id="confirmKingdomNameBtn" style="display:block; margin:12px auto 0 auto;">Confirm</button>
+      </div>
     </div>
   </div>
+
+  <!-- Game Logic -->
+  <script src="great-dao.js"></script>
+</body>
+</html>
   <script>
-    // --- POPUP MENU LOGIC FOR DIAMOND BUTTONS ---
-    let activePopup = null;
-    function closePopupMenu() {
-      if (activePopup && activePopup.parentNode) activePopup.parentNode.removeChild(activePopup);
-      activePopup = null;
+    // ==== PART 1: Utility Functions, World/NPC Definitions, Player State ====
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(max, val));
     }
-    document.body.addEventListener("click", (e) => {
-      if (activePopup && !activePopup.contains(e.target)) closePopupMenu();
-    });
-    function showPopupMenu(btn, actions) {
-      closePopupMenu();
-      const menu = document.createElement("div");
-      menu.className = "popup-menu";
-      actions.forEach(({label, id, disabled}) => {
-        const b = document.createElement("button");
-        b.textContent = label;
-        b.disabled = !!disabled;
-        b.onclick = function(e) {
-          e.stopPropagation();
-          closePopupMenu();
-          document.getElementById(id).click();
-        };
-        menu.appendChild(b);
-      });
-      btn.parentNode.insertBefore(menu, btn.nextSibling);
-      activePopup = menu;
+    function randomFrom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
     }
-    document.getElementById('studyBtn').style.display = "none";
-    document.getElementById('trainBtn').style.display = "none";
-    document.getElementById('workBtn').style.display = "none";
-    document.getElementById('restBtn').style.display = "none";
-    document.getElementById('cultivateBtn').style.display = "none";
-    document.getElementById('meetBtn').style.display = "none";
-    document.getElementById('relationshipBtn').style.display = "none";
-    document.getElementById('worldNewsBtn').style.display = "none";
-    document.getElementById('dailyActionsBtn').onclick = function(e) {
-      e.stopPropagation();
-      showPopupMenu(this, [
-        {label:"Study", id:"studyBtn"},
-        {label:"Train", id:"trainBtn"},
-        {label:"Work", id:"workBtn"},
-        {label:"Rest", id:"restBtn"},
-        {label:"Meditate", id:"cultivateBtn"}
-      ]);
-    };
-    document.getElementById('socialBtn').onclick = function(e) {
-      e.stopPropagation();
-      showPopupMenu(this, [
-        {label:"Meet NPC", id:"meetBtn"},
-        {label:"Relationships", id:"relationshipBtn"}
-      ]);
-    };
-    document.getElementById('worldBtn').onclick = function(e) {
-      e.stopPropagation();
-      showPopupMenu(this, [
-        {label:"World Map", id:"worldBtn"},
-        {label:"World News", id:"worldNewsBtn"}
-      ]);
-    };
 
-   <script>
-    // ==== World News Feed ====
-    let worldNews = [];
-    function addWorldNews(msg, important=false) {
-      const now = new Date();
-      const ts = now.toLocaleDateString() + " " + now.toLocaleTimeString();
-      worldNews.unshift({msg, ts, important});
-      if (worldNews.length > 20) worldNews.pop();
-      renderWorldNews();
-    }
-    function renderWorldNews() {
-      const newsFeed = document.getElementById('newsFeed');
-      newsFeed.innerHTML = worldNews.length === 0 ? "<li>No news yet.</li>" :
-        worldNews.map(item =>
-          `<li class="news-item${item.important ? ' news-important' : ''}">
-            <span class="news-timestamp">${item.ts}</span> ${item.msg}
-          </li>`
-        ).join("");
-    }
-    document.getElementById('worldNewsBtn').onclick = function() {
-      renderWorldNews();
-      document.getElementById('worldNewsPanel').style.display = "block";
-    };
-    document.getElementById('closeWorldNewsBtn').onclick = function() {
-      document.getElementById('worldNewsPanel').style.display = "none";
-    };
-
-    // ==== World, NPC, Kingdom Definitions ====
     const worldLocations = [
       {name:"Heavenly Sect", type:"Sect"},
       {name:"Mystic Mountain", type:"Mountain"},
@@ -497,6 +438,7 @@
       {name:"Iron Kingdom", type:"Kingdom", resources:{wealth:150, qi:180, troops:40}, ruler:null},
       {name:"Dragon Kingdom", type:"Kingdom", resources:{wealth:320, qi:400, troops:110}, ruler:null}
     ];
+
     let npcFamilies = ["Zhou", "Mei", "Chen", "Li", "Xiao", "Wang", "Yu", "Tian", "Luo", "Fang", "Qin", "Hua", "Lan", "Jin", "Rong", "Bo", "Wei", "Shen", "Min", "Yan"];
     let bossNames = [
       {name:"Demon Lord", trait:"Tyrannical", type:"boss", color:"npc-boss"},
@@ -504,8 +446,6 @@
       {name:"Rogue Immortal", trait:"Unpredictable", type:"boss", color:"npc-boss"},
       {name:"Heavenly Calamity", trait:"Destructive", type:"boss", color:"npc-boss"}
     ];
-    function randomFrom(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
-    function clamp(val,min,max) { return Math.max(min,Math.min(max,val)); }
     let npcTypes = [
       {type:"rival", label:"Rival", color:"npc-rival"},
       {type:"ally", label:"Ally", color:"npc-ally"},
@@ -516,10 +456,10 @@
       {type:"enemy", label:"Enemy", color:"npc-enemy"}
     ];
     let npcTraits = ["Loyal", "Ambitious", "Hot-headed", "Wise", "Jealous", "Generous", "Secretive", "Bold", "Kind", "Scheming", "Righteous", "Detached"];
+
     let npcPool = [];
     let knownNPCs = [];
     function createNPC(index) {
-      // Bosses (first few NPC slots)
       if (index < bossNames.length) {
         let boss = bossNames[index];
         let locationObj = randomFrom(worldLocations.filter(l=>l.type==="Kingdom"||l.type==="Sect"));
@@ -546,7 +486,6 @@
           location: locationObj.name
         };
       }
-      // Random enemies (some will be "enemy" type)
       let typeObj = Math.random()<0.2 ? {type:"enemy", label:"Enemy", color:"npc-enemy"} : randomFrom(npcTypes);
       let family = randomFrom(npcFamilies) + " Family";
       let locationObj = randomFrom(worldLocations);
@@ -581,7 +520,6 @@
     }
     generateNPCPool();
 
-    // ==== Player State ====
     let player = {
       name: "You",
       age: 16,
@@ -600,7 +538,7 @@
       kingdom: null
     };
 
-    // ==== UI Elements ====
+    // ==== PART 2: UI Element References, Save/Load, World News, Cultivation Stages ====
     const ageDisplay = document.getElementById('ageDisplay');
     const healthDisplay = document.getElementById('healthDisplay');
     const talentDisplay = document.getElementById('talentDisplay');
@@ -622,39 +560,23 @@
     const knownNpcListDiv = document.getElementById('knownNpcList');
     const relationshipBtn = document.getElementById('relationshipBtn');
     const closeNpcPanelBtn = document.getElementById('closeNpcPanel');
-    const saveBtn = document.getElementById('saveBtn');
-    const loadBtn = document.getElementById('loadBtn');
-    const saveStatus = document.getElementById('saveStatus');
-    const ageBar = document.getElementById('ageBar');
-    const ageBarLabel = document.getElementById('ageBarLabel');
-    const healthBar = document.getElementById('healthBar');
-    const healthBarLabel = document.getElementById('healthBarLabel');
-    const relBar = document.getElementById('relBar');
-    const relBarLabel = document.getElementById('relBarLabel');
-    const qiBar = document.getElementById('qiBar');
-    const qiBarLabel = document.getElementById('qiBarLabel');
     const worldBtn = document.getElementById('worldBtn');
     const worldTab = document.getElementById('worldTab');
     const locationList = document.getElementById('locationList');
     const closeWorldTabBtn = document.getElementById('closeWorldTab');
     const kingdomInfoPanel = document.getElementById('kingdomInfoPanel');
-    // Kingdom Naming Modal
     const kingdomModal = document.getElementById('kingdomModal');
     const kingdomNameInput = document.getElementById('kingdomNameInput');
     const confirmKingdomNameBtn = document.getElementById('confirmKingdomNameBtn');
     const kingdomModalMsg = document.getElementById('kingdomModalMsg');
 
-    // ==== Save & Load System ====
     function saveGame() {
       const gameState = {
         player,
         npcPool,
-        knownNPCs,
-        worldNews
+        knownNPCs
       };
       localStorage.setItem('greatdao_save', JSON.stringify(gameState));
-      saveStatus.textContent = "Game Saved!";
-      setTimeout(()=>saveStatus.textContent="",2000);
     }
     function loadGame() {
       const data = localStorage.getItem('greatdao_save');
@@ -664,33 +586,70 @@
           player = state.player;
           npcPool = state.npcPool;
           knownNPCs = state.knownNPCs;
-          worldNews = state.worldNews || [];
-          saveStatus.textContent = "Game Loaded!";
           updateUI();
-          setTimeout(()=>saveStatus.textContent="",2000);
         } catch(e) {
-          saveStatus.textContent = "Load Failed!";
+          alert("Load failed!");
         }
       } else {
-        saveStatus.textContent = "No Save Found!";
+        alert("No save found!");
       }
     }
-    window.onload = function() {
-      if (localStorage.getItem('greatdao_save')) {
-        loadGame();
-      }
-    };
-    saveBtn.onclick = saveGame;
-    loadBtn.onclick = loadGame;
 
-    // ==== World Tab logic with merged actions ====
+    let worldNews = [];
+    function addWorldNews(msg, important=false) {
+      const now = new Date();
+      const ts = now.toLocaleDateString() + " " + now.toLocaleTimeString();
+      worldNews.unshift({msg, ts, important});
+      if (worldNews.length > 20) worldNews.pop();
+      renderWorldNews();
+    }
+    function renderWorldNews() {
+      const newsFeed = document.getElementById('newsFeed');
+      newsFeed.innerHTML = worldNews.length === 0 ? "<li>No news yet.</li>" :
+        worldNews.map(item =>
+          `<li class="news-item${item.important ? ' news-important' : ''}">
+            <span class="news-timestamp">${item.ts}</span> ${item.msg}
+          </li>`
+        ).join("");
+    }
+    document.getElementById('worldNewsBtn').onclick = function() {
+      renderWorldNews();
+      document.getElementById('worldNewsPanel').style.display = "block";
+    };
+    document.getElementById('closeWorldNewsBtn').onclick = function() {
+      document.getElementById('worldNewsPanel').style.display = "none";
+    };
+
+    const mainRealms = [
+      "Third Rate Master", "Second Rate Master", "First Rate Master", "Peak Master", "Three Flowers Gather at the Summit",
+      "Five Energies Converging at the Origin", "Ultimate Pinnacle", "Beyond the Path to Heaven (First Stage of Manifestation)",
+      "Treading Heaven Beyond the Path (Second Stage of Manifestation)", "Beyond Treading Heavens (Third Stage of Manifestation)",
+      "Fourth Stage of Manifestation", "Fifth Stage of Manifestation", "Qi Gathering", "Qi Refining",
+      "Qi Building", "Core Formation", "Nascent Soul", "Heavenly Being", "Middle Boundary: Four Pillars",
+      "Middle Boundary: Integration", "Middle Boundary: Star Shattering", "Middle Boundary: Star Rebirth",
+      "Middle Boundary: Entering Nirvana", "Great Boundary: True Immortal"
+    ];
+    const miniStages = ["Early", "Middle", "Late", "Peak"];
+    const qiNeeded = [
+      [100, 200, 400, 700], [1200, 1800, 2400, 3200], [5000, 7000, 9000, 12000], [20000, 25000, 32000, 40000],
+      [60000, 80000, 110000, 150000], [220000, 260000, 300000, 340000], [400000, 500000, 600000, 700000],
+      [800000, 900000, 1050000, 1200000], [1500000, 1800000, 2100000, 2500000], [3000000, 3500000, 4000000, 4500000],
+      [5000000, 6000000, 7000000, 8000000], [10000000, 12000000, 14000000, 16000000], [20000000, 22000000, 24000000, 26000000],
+      [30000000, 35000000, 40000000, 45000000], [50000000, 60000000, 70000000, 80000000],
+      [100000000, 120000000, 140000000, 160000000], [200000000, 220000000, 240000000, 260000000],
+      [300000000, 350000000, 400000000, 450000000], [500000000, 600000000, 700000000, 800000000],
+      [1000000000, 1200000000, 1400000000, 1600000000], [2000000000, 2200000000, 2400000000, 2600000000],
+      [3000000000, 3500000000, 4000000000, 4500000000], [5000000000, 6000000000, 7000000000, 8000000000],
+      [10000000000, 12000000000, 14000000000, 16000000000]
+    ];
+
+    // ==== PART 3: World Tab, Actions, Kingdom Management ====
     worldBtn.onclick = function() {
       renderWorldTab();
       worldTab.style.display = "block";
     };
     closeWorldTabBtn.onclick = function() {
       worldTab.style.display = "none";
-      closeActionsMenu();
     };
 
     function renderWorldTab() {
@@ -706,14 +665,14 @@
         let isKingdom = loc?.type === "Kingdom";
         let isControlled = player.kingdom && player.kingdom.location === locName;
         let controlBtn = !isControlled && isKingdom && !loc.ruler ?
-          `<button onclick="window.claimKingdom('${locName}')">Conquer & Control</button>` : "";
+          `<button onclick="claimKingdom('${locName}')">Conquer & Control</button>` : "";
         let kingdomInfo = isKingdom ?
           `<div class="kingdom-info">
             Wealth: ${loc.resources.wealth} | Qi: ${loc.resources.qi} | Troops: ${loc.resources.troops} 
             | Ruler: ${loc.ruler || "None"}
             ${controlBtn}
           </div>` : "";
-        let mergedActionsBtn = `<button class="merged-actions-btn" onclick="window.openActionsMenu('${locName}', event)">Actions</button>`;
+        let mergedActionsBtn = `<button class="merged-actions-btn" onclick="openActionsMenu('${locName}', event)">Actions</button>`;
         return `
           <div class="location-block">
             <div class="location-title">${loc?.name || locName} <small>(${loc?.type || ""})</small></div>
@@ -721,7 +680,7 @@
             <div class="location-npcs">
               ${npcsHere.length ? npcsHere.map(npc =>
                 `<span class="${npc.color}">${npc.name} (${npc.label}, Talent:${npc.talent})
-                  <button class="merged-actions-btn" onclick="window.openActionsMenuForNPC('${npc.id}', event)">Actions</button>
+                  <button class="merged-actions-btn" onclick="openActionsMenuForNPC('${npc.id}', event)">Actions</button>
                 </span>`
               ).join(", ") : "<em>No known NPCs here.</em>"}
             </div>
@@ -731,9 +690,8 @@
       }).join("");
     }
 
-    // ==== Merged Actions Menus ====
     let actionsMenuDiv = null;
-    window.openActionsMenu = function(locName, ev) {
+    function openActionsMenu(locName, ev) {
       closeActionsMenu();
       actionsMenuDiv = document.createElement('div');
       actionsMenuDiv.className = "actions-menu";
@@ -742,35 +700,33 @@
       let loc = worldLocations.find(l=>l.name===locName);
       let isKingdom = loc?.type === "Kingdom";
       let btns = [
-        `<button onclick="window.offendParty('${locName}');closeActionsMenu();">Offend</button>`,
+        `<button onclick="offendParty('${locName}');closeActionsMenu();">Offend</button>`,
         isKingdom ?
-          `<button onclick="window.wipeKingdom('${locName}');closeActionsMenu();">Wipe Out Kingdom</button>` :
-          `<button onclick="window.wipeFamily('${locName}');closeActionsMenu();">Wipe Out Family</button>`,
-        isKingdom && !loc.ruler ? `<button onclick="window.claimKingdom('${locName}');closeActionsMenu();">Conquer & Control</button>` : ""
+          `<button onclick="wipeKingdom('${locName}');closeActionsMenu();">Wipe Out Kingdom</button>` :
+          `<button onclick="wipeFamily('${locName}');closeActionsMenu();">Wipe Out Family</button>`,
+        isKingdom && !loc.ruler ? `<button onclick="claimKingdom('${locName}');closeActionsMenu();">Conquer & Control</button>` : ""
       ];
       actionsMenuDiv.innerHTML = btns.join("");
       document.body.appendChild(actionsMenuDiv);
       ev.stopPropagation();
-    };
-    window.openActionsMenuForNPC = function(npcId, ev) {
+    }
+    function openActionsMenuForNPC(npcId, ev) {
       closeActionsMenu();
       actionsMenuDiv = document.createElement('div');
       actionsMenuDiv.className = "actions-menu";
       actionsMenuDiv.style.top = ev.clientY + "px";
       actionsMenuDiv.style.left = ev.clientX + "px";
-      actionsMenuDiv.innerHTML = `<button onclick="window.killNPC('${npcId}');closeActionsMenu();">Kill</button>`;
+      actionsMenuDiv.innerHTML = `<button onclick="killNPC('${npcId}');closeActionsMenu();">Kill</button>`;
       document.body.appendChild(actionsMenuDiv);
       ev.stopPropagation();
-    };
+    }
     function closeActionsMenu() {
       if (actionsMenuDiv && actionsMenuDiv.parentNode) actionsMenuDiv.parentNode.removeChild(actionsMenuDiv);
       actionsMenuDiv = null;
     }
-    window.closeActionsMenu = closeActionsMenu;
     document.body.onclick = closeActionsMenu;
 
-    // ==== WORLD ACTIONS ====
-    window.offendParty = function(locName) {
+    function offendParty(locName) {
       let loc = worldLocations.find(l=>l.name===locName);
       knownNPCs.forEach(npc => {
         if (npc.location === locName) {
@@ -785,9 +741,9 @@
       eventMsg.textContent = `You have offended the entire party at ${locName}. They are now your rivals. Infamy increased!`;
       addWorldNews(`Player offended all at ${locName}. Now rivals.`, true);
       updateUI();
-    };
+    }
 
-    window.killNPC = function(npcId) {
+    function killNPC(npcId) {
       let npc = knownNPCs.find(n=>n.id===npcId);
       if (npc) {
         let realmDiff = player.realmIndex - npc.realmIndex;
@@ -797,7 +753,6 @@
           player.infamy += 15;
           eventMsg.textContent = `You killed ${npc.name}. Infamy increased!`;
           addWorldNews(`Player killed ${npc.name} at ${npc.location}.`, true);
-          // Bosses drop spirit stones
           if (npc.type === "boss") {
             let stones = 50 + Math.floor(Math.random()*50);
             player.spiritStones += stones;
@@ -808,9 +763,9 @@
         }
         updateUI();
       }
-    };
+    }
 
-    window.wipeFamily = function(locName) {
+    function wipeFamily(locName) {
       let affected = knownNPCs.filter(npc => npc.affiliation === locName || npc.family === locName);
       if (affected.length === 0) {
         eventMsg.textContent = "No family found to wipe out here.";
@@ -826,9 +781,9 @@
         eventMsg.textContent = "You must reach at least the 8th realm to wipe out a family.";
       }
       updateUI();
-    };
+    }
 
-    window.wipeKingdom = function(locName) {
+    function wipeKingdom(locName) {
       let loc = worldLocations.find(l=>l.name===locName);
       if (!loc || loc.type !== "Kingdom") {
         eventMsg.textContent = "Not a kingdom.";
@@ -845,9 +800,9 @@
         eventMsg.textContent = "You must reach at least the 12th realm to wipe out a kingdom.";
       }
       updateUI();
-    };
+    }
 
-    window.claimKingdom = function(locName) {
+    function claimKingdom(locName) {
       let loc = worldLocations.find(l=>l.name===locName);
       if (!loc || loc.type !== "Kingdom" || loc.ruler) {
         eventMsg.textContent = "Cannot claim this kingdom.";
@@ -863,7 +818,7 @@
         eventMsg.textContent = "You must defeat all rivals in this kingdom before conquering.";
       }
       updateUI();
-    };
+    }
 
     function showKingdomNamingModal(locationObj) {
       kingdomModal.style.display = 'block';
@@ -889,13 +844,11 @@
     }
     kingdomModal.onclick = function(e){if(e.target===kingdomModal)kingdomModal.style.display='none';};
 
-    // ==== KINGDOM RESOURCE GENERATION ====
     setInterval(function() {
       if (player.kingdom) {
         player.kingdom.resources.wealth += 3 + Math.floor(player.kingdom.troops/10);
         player.kingdom.resources.qi += 6 + Math.floor(player.talent/2);
         player.kingdom.troops += Math.random()<0.05 ? 1 : 0;
-        // Spirit Stones income for owning a kingdom
         player.spiritStones += 2 + Math.floor(player.kingdom.troops/20);
         if (Math.random()<0.22) {
           addWorldNews(`Kingdom "${player.kingdom.name}" gains resources: Wealth ${player.kingdom.resources.wealth}, Qi ${player.kingdom.resources.qi}, Troops ${player.kingdom.troops}, Spirit Stones ${player.spiritStones}.`);
@@ -904,7 +857,7 @@
       }
     }, 4000);
 
-    // ==== Life/Idle/Stats & Cultivation ====
+    // ==== PART 4: Life Actions, Relationships, Advancement, UI Update ====
     setInterval(function() {
       if (player.health > 0 && player.alive) {
         player.qi += player.qiPerSec;
@@ -943,31 +896,6 @@
       }
     }, 12000);
 
-    // ==== Cultivation Stages ====
-    const mainRealms = [
-      "Third Rate Master", "Second Rate Master", "First Rate Master", "Peak Master", "Three Flowers Gather at the Summit",
-      "Five Energies Converging at the Origin", "Ultimate Pinnacle", "Beyond the Path to Heaven (First Stage of Manifestation)",
-      "Treading Heaven Beyond the Path (Second Stage of Manifestation)", "Beyond Treading Heavens (Third Stage of Manifestation)",
-      "Fourth Stage of Manifestation", "Fifth Stage of Manifestation", "Qi Gathering", "Qi Refining",
-      "Qi Building", "Core Formation", "Nascent Soul", "Heavenly Being", "Middle Boundary: Four Pillars",
-      "Middle Boundary: Integration", "Middle Boundary: Star Shattering", "Middle Boundary: Star Rebirth",
-      "Middle Boundary: Entering Nirvana", "Great Boundary: True Immortal"
-    ];
-    const miniStages = ["Early", "Middle", "Late", "Peak"];
-    const qiNeeded = [
-      [100, 200, 400, 700], [1200, 1800, 2400, 3200], [5000, 7000, 9000, 12000], [20000, 25000, 32000, 40000],
-      [60000, 80000, 110000, 150000], [220000, 260000, 300000, 340000], [400000, 500000, 600000, 700000],
-      [800000, 900000, 1050000, 1200000], [1500000, 1800000, 2100000, 2500000], [3000000, 3500000, 4000000, 4500000],
-      [5000000, 6000000, 7000000, 8000000], [10000000, 12000000, 14000000, 16000000], [20000000, 22000000, 24000000, 26000000],
-      [30000000, 35000000, 40000000, 45000000], [50000000, 60000000, 70000000, 80000000],
-      [100000000, 120000000, 140000000, 160000000], [200000000, 220000000, 240000000, 260000000],
-      [300000000, 350000000, 400000000, 450000000], [500000000, 600000000, 700000000, 800000000],
-      [1000000000, 1200000000, 1400000000, 1600000000], [2000000000, 2200000000, 2400000000, 2600000000],
-      [3000000000, 3500000000, 4000000000, 4500000000], [5000000000, 6000000000, 7000000000, 8000000000],
-      [10000000000, 12000000000, 14000000000, 16000000000]
-    ];
-
-    // ==== Life Actions ====
     document.getElementById('studyBtn').onclick = function() {
       if (player.wealth >= 5) {
         player.wealth -= 5; player.talent += 1;
@@ -998,302 +926,62 @@
     };
     document.getElementById('meetBtn').onclick = function() {
       let unknowns = npcPool.filter(npc=>!knownNPCs.some(k=>k.id===npc.id));
-      if (unknowns.length > 0) {
+      if (unknowns.length) {
         let npc = randomFrom(unknowns);
         knownNPCs.push(npc);
-        player.relationships += 1;
-        eventMsg.textContent = `You met ${npc.name}, a ${npc.label}. They are now in your life.`;
-        npc.history.push(`Met player (+7)`);
-        addWorldNews(`Player met ${npc.name}, a ${npc.label}.`);
+        eventMsg.textContent = `You met ${npc.name} (${npc.label}, Talent:${npc.talent}).`;
+        addWorldNews(`Player met ${npc.name} (${npc.label}, Talent:${npc.talent}).`);
       } else {
-        eventMsg.textContent = "You have met all possible NPCs for this generation.";
+        eventMsg.textContent = "No new NPCs to meet.";
       }
       updateUI();
     };
     document.getElementById('cultivateBtn').onclick = function() {
-      player.health = Math.max(player.health - 1, 0); player.qiPerSec += Math.floor(player.talent/2);
-      eventMsg.textContent = "You meditate, Qi/sec rises.";
-      addWorldNews("Player meditated. Qi/sec rises.");
+      player.qi += 10*player.talent;
+      player.health = Math.max(player.health - 1, 0);
+      eventMsg.textContent = "You meditated. Qi increased.";
+      addWorldNews("Player meditated. Qi increased.");
+      updateUI();
+    };
+    advanceBtn.onclick = function() {
+      let nextQiNeeded = qiNeeded[player.realmIndex]?.[player.miniStageIndex] || 0;
+      if (player.qi < nextQiNeeded) {
+        eventMsg.textContent = "Not enough Qi to advance!";
+        return;
+      }
+      player.qi -= nextQiNeeded;
+      player.miniStageIndex++;
+      if (player.miniStageIndex >= miniStages.length) {
+        player.miniStageIndex = 0;
+        player.realmIndex++;
+        breakthroughMsg.textContent = `Breakthrough! You advanced to ${mainRealms[player.realmIndex]}.`;
+        addWorldNews(`Player broke through to ${mainRealms[player.realmIndex]}.`, true);
+      } else {
+        breakthroughMsg.textContent = `Advanced to ${miniStages[player.miniStageIndex]} stage of ${mainRealms[player.realmIndex]}.`;
+        addWorldNews(`Player advanced to ${miniStages[player.miniStageIndex]} stage of ${mainRealms[player.realmIndex]}.`);
+      }
       updateUI();
     };
 
-    // ==== Advancement logic ====
-    advanceBtn.onclick = function() {
-      let nextQiNeeded = qiNeeded[player.realmIndex]?.[player.miniStageIndex] || 0;
-      if (player.qi >= nextQiNeeded) {
-        if (player.miniStageIndex === miniStages.length-1) {
-          player.qiPerSec += 5 * (player.realmIndex+1);
-          player.miniStageIndex = 0;
-          player.realmIndex++;
-          player.spiritStones += 3 * (player.realmIndex);
-          eventMsg.textContent = `Broke through to ${mainRealms[player.realmIndex] || "the peak!"} and gained Spirit Stones!`;
-          addWorldNews(`Player broke through to ${mainRealms[player.realmIndex] || "the peak!"}`, true);
-        } else {
-          player.miniStageIndex++;
-          player.qiPerSec += 2 * (player.miniStageIndex+1);
-          eventMsg.textContent = `Advanced to ${miniStages[player.miniStageIndex]} Stage of ${mainRealms[player.realmIndex]}`;
-          addWorldNews(`Player advanced to ${miniStages[player.miniStageIndex]} Stage of ${mainRealms[player.realmIndex]}`);
-        }
-        updateUI();
-      }
-    };
-
-    // ==== Relationships Panel ====
     relationshipBtn.onclick = function() {
+      renderKnownNPCPanel();
       npcPanel.style.display = "block";
-      renderKnownNpcPanel();
     };
     closeNpcPanelBtn.onclick = function() {
       npcPanel.style.display = "none";
     };
-    function renderKnownNpcPanel() {
-      knownNpcListDiv.innerHTML = knownNPCs.length > 0 ?
-        knownNPCs.map(npc => {
-          let barWidth = Math.floor(npc.relationship/100*80);
-          let barColor = npc.relationship>80 ? "#70e3e3" : npc.relationship>60 ? "#ffd86b" : npc.relationship>40 ? "#e3a95f" : "#f86e6e";
-          let marriedTxt = npc.married?"💍":"";
-          let spouseTxt = npc.married && npc.spouseId==="player"?" (Married to you)":"";
-          let actions = `
-            <div class="npc-actions">
-              <button onclick="window.npcActionById('${npc.id}','talk')" class="active">Talk</button>
-              <button onclick="window.npcActionById('${npc.id}','gift')" class="active">Gift</button>
-              <button onclick="window.npcActionById('${npc.id}','duel')" class="active">Duel</button>
-              <button onclick="window.npcActionById('${npc.id}','train')" class="active">Train</button>
-              <button onclick="window.npcActionById('${npc.id}','befriend')" class="active">Befriend</button>
-              <button onclick="window.npcActionById('${npc.id}','date')" class="active">Date</button>
-              <button onclick="window.npcActionById('${npc.id}','marry')" class="active">Marry</button>
-              <button onclick="window.npcActionById('${npc.id}','breakup')" class="active">Breakup</button>
-              <button onclick="window.npcActionById('${npc.id}','disown')" class="active">Disown</button>
-              <button onclick="window.npcActionById('${npc.id}','mentor')" class="active">Mentor</button>
-              <button onclick="window.npcActionById('${npc.id}','adopt')" class="active">Adopt</button>
-            </div>
-          `;
-          return `
-            <div class="npc-panel ${npc.color}">
-              <strong>${npc.label}:</strong> ${npc.name} ${marriedTxt}${spouseTxt}<br>
-              <span class="npc-details">
-                Trait: ${npc.trait} | Age: ${npc.age} | Talent: ${npc.talent} <br>
-                Realm: ${mainRealms[npc.realmIndex] || "Peak"} | Stage: ${miniStages[npc.miniStageIndex] || ""} <br>
-                Family: ${npc.family} | Affiliation: ${npc.affiliation}<br>
-                Relationship: <span class="npc-bar"><span class="npc-bar-inner" style="width:${barWidth}px;background:${barColor};display:inline-block;"></span></span> ${npc.relationship}
-                ${npc.alive ? "" : " <em>(eliminated)</em>"}
-                <br>
-                ${actions}
-                <br>
-                <small>Recent: ${npc.history.slice(-3).join("; ")}</small>
-              </span>
-            </div>
-          `;
-        }).join("") : `<div>No NPCs met yet.</div>`;
+    function renderKnownNPCPanel() {
+      knownNpcListDiv.innerHTML = knownNPCs.length === 0 ? "<em>No known NPCs yet.</em>" :
+        knownNPCs.filter(npc=>npc.alive).map(npc =>
+          `<div class="npc-block ${npc.color}">
+            <strong>${npc.name}</strong> (${npc.label}, Talent:${npc.talent}, ${npc.trait})
+            <br>Relationship: ${npc.relationship}
+            <br>Location: ${npc.location}
+            <br>Affiliation: ${npc.affiliation}
+          </div>`
+        ).join("");
     }
 
-    window.npcActionById = function(npcId,action) {
-      let npc = knownNPCs.find(n=>n.id===npcId);
-      if (npc) npcAction(npc,action);
-    };
-
-    function npcAction(npc, action) {
-      let msg = "";
-      switch(action) {
-        case "talk":
-          npc.relationship = clamp(npc.relationship+5,0,100);
-          msg = `You talked with ${npc.name}. Relationship improved!`;
-          npc.history.push("Talked (+5)");
-          addWorldNews(`Player talked with ${npc.name}. Relationship improved.`);
-          break;
-        case "gift":
-          if (player.spiritStones >= 10) {
-            player.spiritStones -= 10;
-            npc.relationship = clamp(npc.relationship+15,0,100);
-            msg = `You gave a gift (10 Spirit Stones) to ${npc.name}. Relationship greatly improved!`;
-            npc.history.push("Gifted (+15)");
-            addWorldNews(`Player gifted ${npc.name} with Spirit Stones.`);
-          } else {
-            msg = "Not enough Spirit Stones to buy a gift.";
-          }
-          break;
-        case "duel":
-          if (Math.random()<0.5) {
-            npc.relationship = clamp(npc.relationship-10,0,100);
-            msg = `You lost the duel! ${npc.name} looks down on you.`;
-            npc.history.push("Lost duel (-10)");
-            addWorldNews(`Player lost a duel against ${npc.name}.`);
-          } else {
-            npc.relationship = clamp(npc.relationship+8,0,100);
-            msg = `You won the duel! ${npc.name} respects you more.`;
-            npc.history.push("Won duel (+8)");
-            addWorldNews(`Player won a duel against ${npc.name}.`);
-          }
-          break;
-        case "train":
-          if (player.spiritStones >= 6) {
-            player.spiritStones -= 6;
-            npc.relationship = clamp(npc.relationship+3,0,100);
-            msg = `You trained with ${npc.name} (spent Spirit Stones). Relationship increased.`;
-            npc.history.push("Trained (+3)");
-            addWorldNews(`Player trained with ${npc.name}. Relationship increased.`);
-          } else {
-            msg = "Not enough Spirit Stones to train.";
-          }
-          break;
-        case "befriend":
-          if (npc.relationship>75 && npc.type!=="ally") {
-            npc.type="ally"; npc.label="Ally"; npc.color="npc-ally";
-            msg = `${npc.name} has become your close ally!`;
-            npc.history.push("Became Ally");
-            addWorldNews(`Player befriended ${npc.name}. Now allies.`);
-          } else {
-            msg = "Relationship not high enough to become allies.";
-          }
-          break;
-        case "date":
-          if (npc.type==="love" && !npc.married && npc.relationship>65) {
-            npc.relationship = clamp(npc.relationship+8,0,100);
-            msg = `You went on a date with ${npc.name}.`;
-            npc.history.push("Dated (+8)");
-            addWorldNews(`Player dated ${npc.name}.`);
-          } else {
-            msg = "Cannot date this NPC.";
-          }
-          break;
-        case "marry":
-          if (npc.type==="love" && !npc.married && npc.relationship>85) {
-            npc.married = true;
-            npc.spouseId = "player";
-            msg = `You married ${npc.name}!`;
-            npc.history.push("Married player");
-            addWorldNews(`Player married ${npc.name}!`);
-          } else {
-            msg = "Relationship not high enough to marry.";
-          }
-          break;
-        case "breakup":
-          if (npc.type==="love" && npc.married) {
-            npc.married = false;
-            npc.spouseId = null;
-            npc.relationship = clamp(npc.relationship-35,0,100);
-            msg = `You broke up with ${npc.name}.`;
-            npc.history.push("Broke up (-35)");
-            addWorldNews(`Player broke up with ${npc.name}.`);
-          } else {
-            msg = "Cannot break up.";
-          }
-          break;
-        case "disown":
-          if (npc.type==="family" && npc.relationship<20) {
-            npc.type="rival"; npc.label="Rival"; npc.color="npc-rival";
-            msg = `You have disowned ${npc.name}. They become a rival!`;
-            npc.history.push("Disowned (becomes rival)");
-            addWorldNews(`Player disowned ${npc.name}. Now a rival.`);
-          } else {
-            msg = "Cannot disown this NPC.";
-          }
-          break;
-        case "mentor":
-          if (npc.type==="mentor" && npc.relationship>70) {
-            if (player.spiritStones >= 12) {
-              player.spiritStones -= 12;
-              player.talent += 1;
-              msg = `${npc.name} imparted wisdom (for Spirit Stones). Your talent increased!`;
-              npc.history.push("Mentored player (+talent)");
-              addWorldNews(`${npc.name} mentored player. Talent increased.`);
-            } else {
-              msg = "Not enough Spirit Stones for mentor's teaching.";
-            }
-          } else {
-            msg = "Mentor relationship not high enough.";
-          }
-          break;
-        case "adopt":
-          if (npc.type==="disciple" && npc.relationship>70) {
-            npc.type="family"; npc.label="Family"; npc.color="npc-family";
-            msg = `You adopted ${npc.name} as family.`;
-            npc.history.push("Adopted (family)");
-            addWorldNews(`Player adopted ${npc.name} into family.`);
-          } else {
-            msg = "Cannot adopt this NPC.";
-          }
-          break;
-      }
-      eventMsg.textContent = msg;
-      updateUI();
-    }
-
-    // ==== NPC Trouble & World Threats Integration ====
-    setInterval(function() {
-      // NPCs cause trouble
-      if (knownNPCs.length > 0 && Math.random() < 0.11) {
-        let npc = randomFrom(knownNPCs.filter(n => n.alive && (n.type==="enemy"||n.type==="boss")));
-        if (!npc) return;
-        let actions = [
-          "started a fight", "betrayed their faction", "stole Spirit Stones", "provoked a duel", 
-          "spread chaos", "sabotaged defenses", "assassinated a rival", "incited rebellion", "robbed a cultivator"
-        ];
-        let action = randomFrom(actions);
-        addWorldNews(`${npc.name} (${npc.label}) ${action} in ${npc.location}!`, true);
-        // Affect player or random NPC
-        if (action === "stole Spirit Stones" && player.spiritStones > 0) {
-          let loss = Math.min(player.spiritStones, Math.floor(Math.random()*6)+3);
-          player.spiritStones -= loss;
-          addWorldNews(`${npc.name} stole ${loss} of your Spirit Stones!`, true);
-        }
-      }
-      // Rare world threat event
-      if (knownNPCs.length > 0 && Math.random() < 0.02) {
-        let npc = randomFrom(knownNPCs.filter(n => n.alive && n.type === "boss"));
-        if (!npc) return;
-        let threats = [
-          "declared war on all kingdoms", "summoned a demon army", "threatens the world with disaster",
-          "tries to dominate the cultivation world", "initiates world tribulation", "calls for universal slaughter"
-        ];
-        let threat = randomFrom(threats);
-        addWorldNews(`Major Threat! ${npc.name} (${npc.affiliation}) ${threat}!`, true);
-        npc.relationship = Math.max(npc.relationship - 10, 0);
-      }
-    }, 8000);
-
-    // ==== UI Update ====
-    function updateUI() {
-      ageDisplay.textContent = player.age;
-      healthDisplay.textContent = player.health;
-      talentDisplay.textContent = player.talent;
-      relDisplay.textContent = player.relationships;
-      wealthDisplay.textContent = player.wealth;
-      spiritStoneDisplay.textContent = player.spiritStones;
-      qiDisplay.textContent = Math.floor(player.qi);
-      qpsDisplay.textContent = Math.floor(player.qiPerSec);
-      infamyDisplay.textContent = player.infamy;
-      realmDisplay.textContent = mainRealms[player.realmIndex] || "Peak";
-      miniStageDisplay.textContent = miniStages[player.miniStageIndex] || "";
-      let agePct = clamp((player.age-16)/84,0,1);
-      ageBar.style.width = (180*agePct)+"px";
-      ageBarLabel.textContent = `${player.age} yrs`;
-      let healthPct = clamp(player.health/100,0,1);
-      healthBar.style.width = (180*healthPct)+"px";
-      healthBarLabel.textContent = `${player.health}`;
-      let relPct = clamp(player.relationships/20,0,1);
-      relBar.style.width = (180*relPct)+"px";
-      relBarLabel.textContent = `${player.relationships}`;
-      let nextQiNeeded = qiNeeded[player.realmIndex]?.[player.miniStageIndex] || 100;
-      let qiPct = clamp(player.qi/nextQiNeeded,0,1);
-      qiBar.style.width = (180*qiPct)+"px";
-      qiBarLabel.textContent = `${Math.floor(player.qi)} / ${nextQiNeeded}`;
-      if (player.kingdom) {
-        kingdomInfoPanel.innerHTML = `
-          <div class="kingdom-info">
-            <strong>Your Kingdom:</strong> ${player.kingdom.name} (${player.kingdom.location})<br>
-            Wealth: ${player.kingdom.resources.wealth} | Qi: ${player.kingdom.resources.qi} | Troops: ${player.kingdom.troops}
-          </div>
-        `;
-      } else {
-        kingdomInfoPanel.innerHTML = "";
-      }
-      renderKnownNpcPanel();
-    }
-    updateUI();
-</script>
-    function clamp(val,min,max){return Math.max(min,Math.min(max,val));}
-    // Example stat bar UI update
     function updateUI() {
       document.getElementById('playerNameDisplay').textContent = player.name;
       document.getElementById('wealthDisplay').textContent = player.wealth;
@@ -1319,10 +1007,28 @@
       document.getElementById('qiBar').style.width = (clamp(player.qi/nextQiNeeded,0,1)*100)+"%";
       document.getElementById('qpsBar').style.width = (clamp(player.qiPerSec/100,0,1)*100)+"%";
       document.getElementById('infamyBar').style.width = (clamp(player.infamy/100,0,1)*100)+"%";
-      let advanceBtn = document.getElementById('advanceBtn');
       advanceBtn.disabled = !(player.qi >= nextQiNeeded);
     }
-    // ...rest of game logic here...
+
+    // ==== PART 5: World Events, Final Hooks ====
+    function triggerRandomWorldEvent() {
+      const events = [
+        "A mysterious fog descends upon the land, lowering everyone's Qi gain.",
+        "A traveling merchant visits your kingdom, offering rare treasures.",
+        "A demon beast rampages in Spirit Forest!",
+        "Heavenly blessings shower upon the cultivators. Talent increased for all!",
+        "A war breaks out between Jade Kingdom and Iron Kingdom."
+      ];
+      const idx = Math.floor(Math.random() * events.length);
+      worldEventBanner.textContent = events[idx];
+      addWorldNews(events[idx], true);
+      setTimeout(() => { worldEventBanner.textContent = ""; }, 7000);
+    }
+    setInterval(triggerRandomWorldEvent, 60000);
+
+    // ==== Initial UI Sync ====
+    updateUI();
+    renderWorldNews();
   </script>
 </body>
 </html>
