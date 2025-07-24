@@ -1,4 +1,4 @@
-// --- REALMS, QI, LIFESPAN TABLES (as before) ---
+// --- REALMS, QI, LIFESPAN TABLES ---
 const realms = [
   "Third Rate Master", "Second Rate Master", "First Rate Master", "Peak Master",
   "Three Flowers Gather at the Summit", "Five Energies Converging at the Origin", "Ultimate Pinnacle",
@@ -44,16 +44,22 @@ function setQi(qi) {
   document.getElementById("qiDisplay").textContent = qi;
 }
 function getTalent() {
-  return parseInt(document.getElementById("talentDisplay").textContent, 10) || 0;
+  return parseInt(document.getElementById("talentDisplay").textContent, 10) || 1;
 }
 function setTalent(tal) {
   document.getElementById("talentDisplay").textContent = tal;
 }
 function getAge() {
-  return parseInt(document.getElementById("ageDisplay").textContent, 10) || 0;
+  return parseInt(document.getElementById("ageDisplay").textContent, 10) || 16;
 }
 function setAge(age) {
   document.getElementById("ageDisplay").textContent = age;
+}
+function getQPS() {
+  return parseInt(document.getElementById("qpsDisplay").textContent, 10) || 1;
+}
+function setQPS(qps) {
+  document.getElementById("qpsDisplay").textContent = qps;
 }
 function resetHealth() {
   document.getElementById("healthDisplay").textContent = 100;
@@ -72,6 +78,18 @@ function updateRealmDisplay() {
     : realmLifespans[realmIndex] + " yrs";
   // Show generation
   document.getElementById("generationDisplay").textContent = generation;
+}
+
+// --- IN-GAME NOTIFICATION SYSTEM ---
+function showNotification(msg) {
+  const notif = document.getElementById("gameNotification");
+  notif.textContent = msg;
+  notif.classList.add("active");
+  notif.style.display = "block";
+  setTimeout(() => {
+    notif.classList.remove("active");
+    setTimeout(() => { notif.style.display = "none"; }, 350);
+  }, 1500);
 }
 
 // --- DEEP QUESTION SYSTEM ---
@@ -181,25 +199,11 @@ function checkLifespan() {
   const age = getAge();
   const lifespan = realmLifespans[realmIndex];
   if (age >= lifespan && lifespan !== Infinity) {
-    // Death! Trigger legacy
     triggerGenerationLegacy();
     return true;
   }
   return false;
 }
-// This function will be called every second to add Qi
-function autoGainQi() {
-  const qpsElem = document.getElementById("qpsDisplay");
-  const qiSec = parseInt(qpsElem.textContent, 10) || 0; // Or whatever your QPS is
-  if (qiSec > 0) {
-    let qiElem = document.getElementById("qiDisplay");
-    let currentQi = parseInt(qiElem.textContent, 10) || 0;
-    qiElem.textContent = currentQi + qiSec;
-  }
-}
-
-// Call autoGainQi every second
-setInterval(autoGainQi, 1000);
 
 function triggerGenerationLegacy() {
   // Save legacy (e.g., 20% of current Qi and +1 talent carry over)
@@ -226,58 +230,59 @@ function triggerGenerationLegacy() {
   updateRealmDisplay();
 }
 
-// --- TICK SYSTEM ---
+// --- TICK SYSTEM (Aging) ---
 function gameTick() {
-  // Increase age by 1 every tick (e.g., 5 seconds)
   setAge(getAge() + 1);
-
-  // Check lifespan and handle legacy if needed
   if (!checkLifespan()) {
     // Optionally, try to auto-advance realm if enough Qi
-    // (Uncomment the next line to allow idle auto-advancement)
     // tryAdvanceRealmOrStage(true);
   }
 }
 setInterval(gameTick, 5000); // 1 year = 5 seconds
 
+// --- AUTO QI GAIN SYSTEM ---
+function autoGainQi() {
+  const qiSec = getQPS();
+  if (qiSec > 0) {
+    let qiElem = document.getElementById("qiDisplay");
+    let currentQi = getQi();
+    setQi(currentQi + qiSec);
+  }
+}
+setInterval(autoGainQi, 1000); // Every 1 second
+
 // --- MANUAL ADVANCE BUTTON ---
 document.getElementById("advanceBtn").onclick = function () {
-  setAge(getAge() + 1); // Manual advance also ages you
+  setAge(getAge() + 1);
   tryAdvanceRealmOrStage(false);
 };
 
-// --- ON LOAD ---
-window.onload = function () {
-  updateRealmDisplay();
-  document.getElementById("wealthDisplayBar").textContent = "50";
-  document.getElementById("spiritStoneDisplayBar").textContent = "15";
-  setAge(16);
-  document.getElementById("generationDisplay").textContent = generation;
-};
-
-// --- CULTIVATE BUTTON: Gain Big Qi ---
+// --- CULTIVATE BUTTON (SCALES WITH TALENT × QI/SEC) ---
 document.getElementById("cultivateBtn").onclick = function () {
+  const talent = getTalent();
+  const qps = getQPS();
+  const gain = talent * qps;
   let qiElem = document.getElementById("qiDisplay");
-  let currentQi = parseInt(qiElem.textContent, 10) || 0;
-  qiElem.textContent = currentQi + 10000;
-  alert("You cultivated and your Qi increased by 10,000!");
+  let currentQi = getQi();
+  setQi(currentQi + gain);
+  showNotification(`You cultivated and gained ${gain.toLocaleString()} Qi!`);
 };
 
-// --- OTHER BUTTONS (unchanged) ---
+// --- OTHER BUTTONS (IN-GAME NOTIFICATIONS INSTEAD OF ALERTS) ---
 document.getElementById("studyBtn").onclick = function () {
-  alert("You studied and gained knowledge!");
+  showNotification("You studied and gained knowledge!");
 };
 document.getElementById("trainBtn").onclick = function () {
-  alert("You trained and gained strength!");
+  showNotification("You trained and gained strength!");
 };
 document.getElementById("workBtn").onclick = function () {
-  alert("You worked and earned some wealth!");
+  showNotification("You worked and earned some wealth!");
 };
 document.getElementById("restBtn").onclick = function () {
-  alert("You rested and regained some health!");
+  showNotification("You rested and regained some health!");
 };
 document.getElementById("meetBtn").onclick = function () {
-  alert("You met someone interesting!");
+  showNotification("You met someone interesting!");
 };
 document.getElementById("relationshipBtn").onclick = function () {
   document.getElementById("npcPanel").style.display = "block";
@@ -297,4 +302,33 @@ document.getElementById("worldNewsBtn").onclick = function () {
 document.getElementById("closeWorldNewsBtn").onclick = function () {
   document.getElementById("worldNewsPanel").style.display = "none";
 };
-// Save/Load buttons are left for your implementation
+
+// --- UPDATE FM MODAL LOGIC (if you use it) ---
+if (document.getElementById("updateFmBtn")) {
+  document.getElementById("updateFmBtn").onclick = function() {
+    document.getElementById("updateFmModal").classList.add("active");
+    document.getElementById("closeUpdateFmBtn").focus();
+  };
+}
+if (document.getElementById("closeUpdateFmBtn")) {
+  document.getElementById("closeUpdateFmBtn").onclick = function() {
+    document.getElementById("updateFmModal").classList.remove("active");
+  };
+}
+document.addEventListener("keydown", function(e){
+  if (e.key === "Escape" && document.getElementById("updateFmModal")) {
+    document.getElementById("updateFmModal").classList.remove("active");
+  }
+});
+
+// --- ON LOAD ---
+window.onload = function () {
+  updateRealmDisplay();
+  document.getElementById("wealthDisplayBar").textContent = "50";
+  document.getElementById("spiritStoneDisplayBar").textContent = "15";
+  setAge(16);
+  setQi(0);
+  setTalent(2);
+  setQPS(1);
+  document.getElementById("generationDisplay").textContent = generation;
+};
