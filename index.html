@@ -2,159 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Great Dao</title>
-  <style>
-  body {
-  font-family: 'Segoe UI', 'Arial', sans-serif;
-  background: linear-gradient(180deg, #dbe8ff 0%, #b5c2e8 100%);
-  color: #333;
-  margin: 0;
-}
-.top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  background: #4b5c7e;
-  color: #fff;
-  font-size: 1.1em;
-  padding: 10px 20px;
-  border-bottom: 2px solid #bac6e6;
-  position: relative;
-  height: 48px;
-  box-shadow: 0 2px 8px #b5c2e8;
-  z-index: 2;
-}
-.top-bar .currency {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-}
-.currency-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: bold;
-  font-size: 1.05em;
-  background: rgba(255,255,255,0.07);
-  border-radius: 18px;
-  padding: 2px 12px;
-  box-shadow: 0 2px 8px #4442;
-}
-.currency-icon {
-  width: 22px;
-  height: 22px;
-  display: inline-block;
-  vertical-align: middle;
-  background-size: cover;
-}
-.currency-icon.gold {
-  background-image: url('https://img.icons8.com/fluency/48/000000/money.png');
-}
-.currency-icon.stone {
-  background-image: url('https://img.icons8.com/fluency/48/000000/diamond.png');
-}
-.container {
-  margin: 0 auto;
-  padding: 18px 0 0 0;
-  max-width: 470px;
-  min-height: 100vh;
-  position: relative;
-}
-.avatar-bar {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin: 16px 0 6px 0;
-  position: relative;
-}
-.avatar {
-  width: 74px;
-  height: 74px;
-  border-radius: 50%;
-  border: 3px solid #e2e6f6;
-  background: #f8f8ff url('https://img.icons8.com/emoji/96/000000/baby-emoji.png') center center/70% no-repeat;
-  box-shadow: 0 2px 10px #b5c2e8;
-}
-.avatar-info {
-  flex: 1;
-  margin-left: 2px;
-}
-.avatar-name {
-  font-size: 1.25em;
-  font-weight: bold;
-  letter-spacing: 1px;
-  margin-bottom: 2px;
-  color: #4b5c7e;
-}
-.avatar-title {
-  font-size: 1em;
-  color: #7e3ff2;
-  margin-bottom: 5px;
-}
-.stats-section {
-  background: #f4f6fbcc;
-  border-radius: 22px;
-  box-shadow: 0 2px 16px #b5c2e8;
-  padding: 18px 14px 14px 14px;
-  margin-bottom: 18px;
-  margin-top: 0;
-}
-.stat-bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 11px;
-  gap: 9px;
-}
-.stat-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 80px;
-  font-size: 1.05em;
-  color: #4b5c7e;
-  font-weight: 500;
-  letter-spacing: .5px;
-}
-.stat-icon {
-  width: 22px;
-  height: 22px;
-  background-size: cover;
-  vertical-align: middle;
-  margin-right: 2px;
-}
-.stat-bar-bg {
-  flex: 1;
-  height: 18px;
-  background: #e5e9f4;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px #b5c2e822;
-  overflow: hidden;
-  position: relative;
-  margin: 0 4px;
-}
-.stat-bar-fill {
-  height: 100%;
-  border-radius: 12px;
-  transition: width 0.6s;
-  box-shadow: 0 1px 8px #7772;
-}
-.stat-value {
-  min-width: 34px;
-  text-align: right;
-  font-size: 1.08em;
-  font-weight: bold;
-  color: #333;
-}
-/* Stat colors */
-.bar-age      { background: linear-gradient(90deg,#a8c0ff,#f8ffae); }
-.bar-health   { background: linear-gradient(90deg,#ffb6b6,#ffd86b); }
-.bar-talent   { background: linear-gradient(90deg,#7e3ff2,#ffd86b); }
-.bar-wealth   { background: linear-gradient(90deg,#ffd86b,#fffbe6); }
-.bar-stones   { background: linear-gradient(90deg,#c6e2ff,#70e3e3); }
-.bar-rel      { background: linear-gradient(90deg,#ffd9a0,#7e3ff2); }
-.bar-qi       { background: linear-gradient(90deg,#7e3ff2,#ffd86b); }
-.bar-qps      { background: linear-gradient(90deg,#70e3e3,#ffd9a0); }
-.bar-infamy   { background: linear-gradient(90deg,#e34b4b,#ffd9a0); }
+  <title>Great Dao Cultivation Idle Game</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="great-dao.css">
+</head>
+<body>
+  <!-- Top Bar with Currency -->
+  <div class="top-bar">
+    <div class="currency">
+      <span class="currency-item">
+        <span class="currency-icon gold"></span>
+        <span id="wealthDisplayBar">0</span> Wealth
+      </span>
+      <span class="currency-item">
+        <span class="currency-icon stone"></span>
+        <span id="spiritStoneDisplayBar">0</span> Spirit Stones
+      </span>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Player Avatar and Info -->
+    <div class="avatar-bar">
+      <div class="avatar"></div>
+      <div class="avatar-info">
+        <div class="avatar-name" id="playerNameDisplay">You</div>
+        <div class="avatar-title"><span id="realmDisplay"></span> <span id="miniStageDisplay"></span></div>
+      </div>
+    </div>
+
+    <!-- Stats Section: Plain Numbers, No Icons -->
+    <div class="stats-section">
+      <div class="stat-bar">
+        <div class="stat-label">Age</div>
+        <span class="stat-value" id="ageDisplay">16</span>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-label">Health</div>
+        <span class="stat-value" id="healthDisplay">100</span>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-label">Talent</div>
+        <span class="stat-value" id="talentDisplay">2</span>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-label">Wealth</div>
+        <span class="stat-value" id="wealthDisplay">50</span>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-label">Spirit Stones</div>
+        <span class="stat-value" id="spiritStoneDisplay">15</span>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-label">Relationships</div>
+        <span class="stat-value" id="relDisplay">0</span>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-label">Qi</div>
+        <span class="stat-value" id="qiDisplay">0</span>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-label">Qi/sec</div>
+        <span class="stat-value" id="qpsDisplay">1</span>
+      </div>
+      <div class="stat-bar">
+        <div class="stat-label">Infamy</div>
+        <span class="stat-value" id="infamyDisplay">0</span>
+      </div>
+    </div>
+
+    <!-- Main Action Button -->
+    <button id="advanceBtn" class="advance-btn">Advance</button>
+    <div id="breakthroughMsg" style="text-align:center; color:#7e3ff2; margin-bottom:8px;"></div>
+
+    <!-- Diamond Buttons for Life Actions -->
+    <div class="diamond-buttons">
+      <button class="diamond-btn" id="studyBtn"><span class="diamond-btn-label">Study</span></button>
+      <button class="diamond-btn" id="trainBtn"><span class="diamond-btn-label">Train</span></button>
+      <button class="diamond-btn" id="workBtn"><span class="diamond-btn-label">Work</span></button>
+      <button class="diamond-btn" id="restBtn"><span class="diamond-btn-label">Rest</span></button>
+      <button class="diamond-btn" id="meetBtn"><span class="diamond-btn-label">Meet</span></button>
+      <button class="diamond-btn" id="cultivateBtn"><span class="diamond-btn-label">Cultivate</span></button>
+      <button class="diamond-btn" id="relationshipBtn"><span class="diamond-btn-label">Relation</span></button>
+      <button class="diamond-btn" id="worldBtn"><span class="diamond-btn-label">World</span></button>
+      <button class="diamond-btn" id="worldNewsBtn"><span class="diamond-btn-label">World News</span></button>
+      <button class="diamond-btn" id="saveBtn"><span class="diamond-btn-label">Save</span></button>
+      <button class="diamond-btn" id="loadBtn"><span class="diamond-btn-label">Load</span></button>
+    </div>
+
+    <!-- Event Messages -->
+    <div id="eventMsg" style="text-align:center; color:#e34b4b; font-weight:bold; margin-top:10px;"></div>
+    <div id="worldEventBanner" style="text-align:center; color:#4b5c7e; font-weight:bold; margin-top:8px;"></div>
+
+    <!-- Relationships Panel -->
+    <div id="npcPanel" style="display:none; position:fixed; left:50%; top:10%; transform:translateX(-50%); background:#fff; border-radius:18px; box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; z-index:100; min-width:270px; max-width:92vw;">
+      <h3 style="text-align:center;">Known NPCs</h3>
+      <div id="knownNpcList"></div>
+      <button id="closeNpcPanel" style="display:block; margin:12px auto 0 auto;">Close</button>
+    </div>
+
+    <!-- World Tab -->
+    <div id="worldTab" style="display:none; position:fixed; left:50%; top:8%; transform:translateX(-50%); background:#fff; border-radius:18px; box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; z-index:99; min-width:350px; max-width:97vw;max-height:75vh;overflow-y:auto;">
+      <h3 style="text-align:center;">The World</h3>
+      <div id="locationList"></div>
+      <button id="closeWorldTab" style="display:block; margin:12px auto 0 auto;">Close</button>
+    </div>
+
+    <!-- World News Panel -->
+    <div id="worldNewsPanel" style="display:none; position:fixed; left:50%; top:11%; transform:translateX(-50%); background:#fff; border-radius:18px; box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; z-index:101; min-width:340px; max-width:94vw;max-height:70vh;overflow-y:auto;">
+      <h3 style="text-align:center;">World News</h3>
+      <ul id="newsFeed" style="padding-left:10px;"></ul>
+      <button id="closeWorldNewsBtn" style="display:block; margin:12px auto 0 auto;">Close</button>
+    </div>
+
+    <!-- Kingdom Naming Modal -->
+    <div id="kingdomModal" style="display:none; position:fixed; left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);z-index:999;">
+      <div style="background:#fff; border-radius:18px;box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; min-width:240px; max-width:76vw; margin:100px auto 0 auto;">
+        <h3 style="text-align:center;">Name Your Kingdom</h3>
+        <input id="kingdomNameInput" type="text" style="font-size:1.2em; display:block; margin:12px auto 10px auto; width:80%;padding:6px;">
+        <div id="kingdomModalMsg" style="color:#e34b4b; text-align:center; min-height:22px;"></div>
+        <button id="confirmKingdomNameBtn" style="display:block; margin:12px auto 0 auto;">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Logic -->
+  <script src="great-dao.js"></script>
+</body>
+</html>
 
 /* Central round button */
 .advance-btn {
@@ -274,151 +250,7 @@
   background: #7e3ff2;
   color: #ffd86b;
 }
-  </style>
-</head>
-<body>
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Great Dao Cultivation Idle Game</title>
-  <link rel="stylesheet" href="great-dao.css">
-</head>
-<body>
-  <!-- Top Bar with Currency -->
-  <div class="top-bar">
-    <div class="currency">
-      <span class="currency-item">
-        <span class="currency-icon gold"></span>
-        <span id="wealthDisplayBar">0</span> Wealth
-      </span>
-      <span class="currency-item">
-        <span class="currency-icon stone"></span>
-        <span id="spiritStoneDisplayBar">0</span> Spirit Stones
-      </span>
-    </div>
-  </div>
 
-  <!-- Main Container -->
-  <div class="container">
-    <!-- Player Avatar and Info -->
-    <div class="avatar-bar">
-      <div class="avatar"></div>
-      <div class="avatar-info">
-        <div class="avatar-name" id="playerNameDisplay">You</div>
-        <div class="avatar-title"><span id="realmDisplay"></span> <span id="miniStageDisplay"></span></div>
-      </div>
-    </div>
-
-    <!-- Stats Section -->
-    <div class="stats-section">
-      <div class="stat-bar">
-        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/age.png');"></span>Age</div>
-        <div class="stat-bar-bg"><div class="stat-bar-fill bar-age" id="ageBar"></div></div>
-        <span class="stat-value" id="ageDisplay">16</span>
-      </div>
-      <div class="stat-bar">
-        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/heart-health.png');"></span>Health</div>
-        <div class="stat-bar-bg"><div class="stat-bar-fill bar-health" id="healthBar"></div></div>
-        <span class="stat-value" id="healthDisplay">100</span>
-      </div>
-      <div class="stat-bar">
-        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/brain.png');"></span>Talent</div>
-        <div class="stat-bar-bg"><div class="stat-bar-fill bar-talent" id="talentBar"></div></div>
-        <span class="stat-value" id="talentDisplay">2</span>
-      </div>
-      <div class="stat-bar">
-        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/money.png');"></span>Wealth</div>
-        <div class="stat-bar-bg"><div class="stat-bar-fill bar-wealth" id="wealthBar"></div></div>
-        <span class="stat-value" id="wealthDisplay">50</span>
-      </div>
-      <div class="stat-bar">
-        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/diamond.png');"></span>Spirit Stones</div>
-        <div class="stat-bar-bg"><div class="stat-bar-fill bar-stones" id="stoneBar"></div></div>
-        <span class="stat-value" id="spiritStoneDisplay">15</span>
-      </div>
-      <div class="stat-bar">
-        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/handshake.png');"></span>Relationships</div>
-        <div class="stat-bar-bg"><div class="stat-bar-fill bar-rel" id="relBar"></div></div>
-        <span class="stat-value" id="relDisplay">0</span>
-      </div>
-      <div class="stat-bar">
-        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/rock.png');"></span>Qi</div>
-        <div class="stat-bar-bg"><div class="stat-bar-fill bar-qi" id="qiBar"></div></div>
-        <span class="stat-value" id="qiDisplay">0</span>
-      </div>
-      <div class="stat-bar">
-        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/rocket.png');"></span>Qi/sec</div>
-        <div class="stat-bar-bg"><div class="stat-bar-fill bar-qps" id="qpsBar"></div></div>
-        <span class="stat-value" id="qpsDisplay">1</span>
-      </div>
-      <div class="stat-bar">
-        <div class="stat-label"><span class="stat-icon" style="background-image:url('https://img.icons8.com/color/48/000000/bomb.png');"></span>Infamy</div>
-        <div class="stat-bar-bg"><div class="stat-bar-fill bar-infamy" id="infamyBar"></div></div>
-        <span class="stat-value" id="infamyDisplay">0</span>
-      </div>
-    </div>
-
-    <!-- Main Action Button -->
-    <button id="advanceBtn" class="advance-btn">Advance</button>
-    <div id="breakthroughMsg" style="text-align:center; color:#7e3ff2; margin-bottom:8px;"></div>
-
-    <!-- Diamond Buttons for Life Actions -->
-    <div class="diamond-buttons">
-      <button class="diamond-btn" id="studyBtn"><span class="diamond-btn-label">Study</span></button>
-      <button class="diamond-btn" id="trainBtn"><span class="diamond-btn-label">Train</span></button>
-      <button class="diamond-btn" id="workBtn"><span class="diamond-btn-label">Work</span></button>
-      <button class="diamond-btn" id="restBtn"><span class="diamond-btn-label">Rest</span></button>
-      <button class="diamond-btn" id="meetBtn"><span class="diamond-btn-label">Meet</span></button>
-      <button class="diamond-btn" id="cultivateBtn"><span class="diamond-btn-label">Cultivate</span></button>
-      <button class="diamond-btn" id="relationshipBtn"><span class="diamond-btn-label">Relationships</span></button>
-      <button class="diamond-btn" id="worldBtn"><span class="diamond-btn-label">World</span></button>
-      <button class="diamond-btn" id="worldNewsBtn"><span class="diamond-btn-label">World News</span></button>
-      <button class="diamond-btn" id="saveBtn"><span class="diamond-btn-label">Save</span></button>
-      <button class="diamond-btn" id="loadBtn"><span class="diamond-btn-label">Load</span></button>
-    </div>
-
-    <!-- Event Messages -->
-    <div id="eventMsg" style="text-align:center; color:#e34b4b; font-weight:bold; margin-top:10px;"></div>
-    <div id="worldEventBanner" style="text-align:center; color:#4b5c7e; font-weight:bold; margin-top:8px;"></div>
-
-    <!-- Relationships Panel -->
-    <div id="npcPanel" style="display:none; position:fixed; left:50%; top:10%; transform:translateX(-50%); background:#fff; border-radius:18px; box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; z-index:100; min-width:270px; max-width:92vw;">
-      <h3 style="text-align:center;">Known NPCs</h3>
-      <div id="knownNpcList"></div>
-      <button id="closeNpcPanel" style="display:block; margin:12px auto 0 auto;">Close</button>
-    </div>
-
-    <!-- World Tab -->
-    <div id="worldTab" style="display:none; position:fixed; left:50%; top:8%; transform:translateX(-50%); background:#fff; border-radius:18px; box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; z-index:99; min-width:350px; max-width:97vw;max-height:75vh;overflow-y:auto;">
-      <h3 style="text-align:center;">The World</h3>
-      <div id="locationList"></div>
-      <button id="closeWorldTab" style="display:block; margin:12px auto 0 auto;">Close</button>
-    </div>
-
-    <!-- World News Panel -->
-    <div id="worldNewsPanel" style="display:none; position:fixed; left:50%; top:11%; transform:translateX(-50%); background:#fff; border-radius:18px; box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; z-index:101; min-width:340px; max-width:94vw;max-height:70vh;overflow-y:auto;">
-      <h3 style="text-align:center;">World News</h3>
-      <ul id="newsFeed" style="padding-left:10px;"></ul>
-      <button id="closeWorldNewsBtn" style="display:block; margin:12px auto 0 auto;">Close</button>
-    </div>
-
-    <!-- Kingdom Naming Modal -->
-    <div id="kingdomModal" style="display:none; position:fixed; left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);z-index:999;">
-      <div style="background:#fff; border-radius:18px;box-shadow:0 2px 16px #7e3ff2; padding:18px 14px; min-width:240px; max-width:76vw; margin:100px auto 0 auto;">
-        <h3 style="text-align:center;">Name Your Kingdom</h3>
-        <input id="kingdomNameInput" type="text" style="font-size:1.2em; display:block; margin:12px auto 10px auto; width:80%;padding:6px;">
-        <div id="kingdomModalMsg" style="color:#e34b4b; text-align:center; min-height:22px;"></div>
-        <button id="confirmKingdomNameBtn" style="display:block; margin:12px auto 0 auto;">Confirm</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Game Logic -->
-  <script src="great-dao.js"></script>
-</body>
-</html>
-  <script>
     // ==== PART 1: Utility Functions, World/NPC Definitions, Player State ====
     function clamp(val, min, max) {
       return Math.max(min, Math.min(max, val));
