@@ -187,6 +187,19 @@ function checkLifespan() {
   }
   return false;
 }
+// This function will be called every second to add Qi
+function autoGainQi() {
+  const qpsElem = document.getElementById("qpsDisplay");
+  const qiSec = parseInt(qpsElem.textContent, 10) || 0; // Or whatever your QPS is
+  if (qiSec > 0) {
+    let qiElem = document.getElementById("qiDisplay");
+    let currentQi = parseInt(qiElem.textContent, 10) || 0;
+    qiElem.textContent = currentQi + qiSec;
+  }
+}
+
+// Call autoGainQi every second
+setInterval(autoGainQi, 1000);
 
 function triggerGenerationLegacy() {
   // Save legacy (e.g., 20% of current Qi and +1 talent carry over)
