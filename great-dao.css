@@ -188,3 +188,24 @@ body {
   from { opacity: 0; transform: translateX(-50%) scale(.95);}
   to { opacity: 1; transform: translateX(-50%) scale(1);}
 }
+.game-notification {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 24px;
+  transform: translateX(-50%);
+  background: #7e3ff2;
+  color: #fff;
+  font-size: 1.1em;
+  padding: 10px 34px;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px #7e3ff285;
+  z-index: 1101;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.game-notification.active {
+  display: block;
+  opacity: 1;
+}
